@@ -5,7 +5,7 @@ var uploader = new qq.s3.FineUploader({
         // S3 Bucket URL
         endpoint: 'https://cf.stackcraft.co.s3.amazonaws.com', 
         // iam ACCESS KEY
-        accessKey: 'AKIAXTQ5R7IXDS464SUP' 
+        accessKey: 'AKIAXTQ5R7IXKVQ5E6R6' 
     },
     objectProperties: {
         region: 'ap-northeast-2',
