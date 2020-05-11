@@ -19,7 +19,7 @@ var uploader = new qq.s3.FineUploader({
         // version
         version: 4,
         // AWS API Gate URL
-        endpoint: 'https://ie4lf9ccwb.execute-api.ap-northeast-2.amazonaws.com/prod'
+        endpoint: 'https://ie4lf9ccwb.execute-api.ap-northeast-2.amazonaws.com/prod/image'
     },
     retry: {
         enableAuto: true // defaults to false
