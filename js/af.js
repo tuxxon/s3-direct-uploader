@@ -53,6 +53,7 @@
                 labelContainer.appendChild(element);
             }
         }
+
         async function predict() {
             var image = document.getElementById("face-image")
             const prediction = await model.predict(image, false);
