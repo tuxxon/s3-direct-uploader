@@ -80,23 +80,22 @@ function getImagesForCartoon_apigateway() {
 }
 
 
-function getImagesForCartoon() {
+function getImagesForCartoon(ext) {
 
 	/// Prepare to call Lambda function
     var lambda = new AWS.Lambda();
 
     var input = {
-        name: "test1234.png",
+        //name: "test1234.png",
         resource: "",
         httpMethod: "POST",
         queryStringParameters: {
-            name: "test1234.png"
+            name: UUID.generate() + ext
         }
     };
 
     var params = {
         FunctionName: 'upload-image-to-s3',
-        //ClientContext: '{"test": 1234}',
 		InvocationType : 'RequestResponse',
         Payload: JSON.stringify(input)
     };
@@ -108,8 +107,15 @@ function getImagesForCartoon() {
             //result.innerHTML = err;
         } 
         else {
-            console.log("result > %s",data.Payload);
             var output = JSON.parse(data.Payload);
+
+            $("#upload-form").attr('action', output.body.url);
+            $("#upload-form > input[name^='key']").val(output.body.fields['key']);
+            $("#upload-form > input[name^='x-amz-credential']").val(output.body.fields['x-amz-credential']);
+            $("#upload-form > input[name^='x-amz-date']").val(output.body.fields['x-amz-date']);
+            $("#upload-form > input[name^='policy']").val(output.body.fields['policy']);
+            $("#upload-form > input[name^='x-amz-signature']").val(output.body.fields['x-amz-signature']);
+            $("#upload-form > input[name^='submit']").click();
             //result.innerHTML = output;
         }
         //document.getElementById('submitButton').disabled = false;
@@ -145,3 +151,10 @@ function getImagesForCartoon() {
     */
     //console.log("...cv images!!!...");
 }
+
+$(document).ready(function() 
+{
+    $('#upload-btn').on('click', function() {
+        $("#upload-form").submit();
+    });
+});

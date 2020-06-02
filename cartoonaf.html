@@ -31,7 +31,7 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- Global site tag (gtag.js) - Google Analytics-->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-167120448-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -174,7 +174,7 @@
 
             <div class="mt-3 container file-upload">
                 <div class="image-upload-wrap">
-                    <form action="{action_url}" method="POST" enctype="multipart/form-data">
+                    <form id="upload-form" action="{action_url}" method="POST" enctype="multipart/form-data">
                         <!-- Copy the 'fields' key:values returned by S3Client.generate_presigned_post() -->
                         <input type="hidden" name="key" value="{key}" />
                         <input type="hidden" name="x-amz-algorithm" value="AWS4-HMAC-SHA256" />
@@ -182,7 +182,7 @@
                         <input type="hidden" name="x-amz-date" value="{date}" />
                         <input type="hidden" name="policy" value="{policy}" />
                         <input type="hidden" name="x-amz-signature" value="{signature}" />
-                        <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
+                        <input type="file"   name="file"  class="file-upload-input" onchange="readURL(this);" accept="image/*" />
                         <input type="submit" name="submit" value="" class="invisible" />
                     </form>
 
@@ -192,6 +192,7 @@
                         <h3 class="mb-5 pb-5 pt-4  upload-text">얼굴 사진을 올려놓거나 눌러서 업로드하세요!</h3>
                     </div>
                 </div>
+
                 <div class="file-upload-content">
                     <img class="file-upload-image" id="face-image" src="#" alt="your image"/>
                     <div class="d-flex container my-3 justify-content-center">
@@ -318,7 +319,7 @@
     </script>
 
     <!-- for AWS API Gateway.. -->
-    <script type="text/javascript" src="lib/axios/dist/axios.standalone.js"></script>
+    <!--script type="text/javascript" src="lib/axios/dist/axios.standalone.js"></script>
     <script type="text/javascript" src="lib/CryptoJS/rollups/hmac-sha256.js"></script>
     <script type="text/javascript" src="lib/CryptoJS/rollups/sha256.js"></script>
     <script type="text/javascript" src="lib/CryptoJS/components/hmac.js"></script>
@@ -328,7 +329,7 @@
     <script type="text/javascript" src="lib/apiGatewayCore/apiGatewayClient.js"></script>
     <script type="text/javascript" src="lib/apiGatewayCore/simpleHttpClient.js"></script>
     <script type="text/javascript" src="lib/apiGatewayCore/utils.js"></script>
-    <script type="text/javascript" src="js/apigClient.js"></script>
+    <script type="text/javascript" src="js/apigClient.js"></script-->
 
     <!-- aws sdk -->
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.686.0.min.js"></script>
