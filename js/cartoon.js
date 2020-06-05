@@ -79,18 +79,63 @@ function getImagesForCartoon_apigateway() {
 
 }
 
+function showImagesToBeCartoonized(filename) {
+    var apigClient = apigClientFactory.newClient();
 
-function getImagesForCartoon(ext) {
+    var params = {
+        //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+        name: filename
+    };
+    var body = {
+        //This is where you define the body of the request
+    };
+    var additionalParams = {
+        //If there are any unmodeled query parameters or headers that need to be sent with the request you can add them here
+        /*
+        headers: {
+            param0: '',
+            param1: ''
+        },
+        */
+        queryParams: {
+            name: filename
+            //param1: ''
+        }
+    };
+
+    apigClient.cartoonafGet(params, body, additionalParams)
+        .then(function(result){
+            //This is where you would put a success callback
+            console.log("==== apigClient => %s",JSON.stringify(result.data.body));
+        })
+        .catch(function(result){
+            //This is where you would put an error callback
+            // catch errors...
+        });
+
+}
+
+/**
+ * Post an image to s3 with a signed url.
+ * 
+ * @param {*} filename : image filename to post.
+ */
+
+function postImagesForCartoon(filename) { 
 
 	/// Prepare to call Lambda function
     var lambda = new AWS.Lambda();
 
+    var re = /(?:\.([^.]+))?$/;
+    var ext = "." + re.exec(filename)[1];
+
+    var paramFilename = UUID.generate() + ext;
     var input = {
         //name: "test1234.png",
         resource: "",
         httpMethod: "POST",
         queryStringParameters: {
-            name: UUID.generate() + ext
+            name: paramFilename
         }
     };
 
@@ -107,8 +152,11 @@ function getImagesForCartoon(ext) {
             //result.innerHTML = err;
         } 
         else {
+            /**
+             * Initialize the inputs of form 
+             * in order to post an image to s3 with a signed url.
+             */
             var output = JSON.parse(data.Payload);
-
             $("#upload-form").attr('action', output.body.url);
             $("#upload-form > input[name^='key']").val(output.body.fields['key']);
             $("#upload-form > input[name^='x-amz-credential']").val(output.body.fields['x-amz-credential']);
@@ -117,8 +165,9 @@ function getImagesForCartoon(ext) {
             $("#upload-form > input[name^='x-amz-signature']").val(output.body.fields['x-amz-signature']);
             $("#upload-form > input[name^='submit']").click();
             //result.innerHTML = output;
+
+            showImagesToBeCartoonized(paramFilename);
         }
-        //document.getElementById('submitButton').disabled = false;
     });
     
     /**
