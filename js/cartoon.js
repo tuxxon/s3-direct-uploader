@@ -110,6 +110,24 @@ function showImagesToBeCartoonized(filename) {
 
             $("#grayImage").attr("src",images['gray']);
             $("#grayImage").parent('a').attr("href",images['gray']);
+
+
+            $("#edgePreservingImage").attr("src",images['edgePreserving']);
+            $("#edgePreservingImage").parent('a').attr("href",images['edgePreserving']);
+
+            $("#detailEnhanceImage").attr("src",images['detailEnhance']);
+            $("#detailEnhanceImage").parent('a').attr("href",images['detailEnhance']);
+
+            $("#stylizationImage").attr("src",images['stylization']);
+            $("#stylizationImage").parent('a').attr("href",images['stylization']);
+
+            $("#pencilSketchGrayImage").attr("src",images['pencilSketch_gray']);
+            $("#pencilSketchGrayImage").parent('a').attr("href",images['pencilSketch_gray']);
+
+            $("#pencilSketchColorImage").attr("src",images['pencilSketch_color']);
+            $("#pencilSketchColorImage").parent('a').attr("href",images['pencilSketch_color']);
+
+            //console.log("[DEBUG] images =%s",JSON.stringify(result.data.body.images));
         })
         .catch(function(result){
             //This is where you would put an error callback
