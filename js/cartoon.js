@@ -106,7 +106,9 @@ function showImagesToBeCartoonized(filename) {
     apigClient.cartoonafGet(params, body, additionalParams)
         .then(function(result){
             //This is where you would put a success callback
-            console.log("==== apigClient => %s",JSON.stringify(result.data.body));
+            var images = result.data.body.images;
+
+            $("#grayImage").attr("src",images['gray']);
         })
         .catch(function(result){
             //This is where you would put an error callback
