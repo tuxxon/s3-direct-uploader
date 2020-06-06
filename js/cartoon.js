@@ -109,6 +109,7 @@ function showImagesToBeCartoonized(filename) {
             var images = result.data.body.images;
 
             $("#grayImage").attr("src",images['gray']);
+            $("#grayImage").parent('a').attr("href",images['gray']);
         })
         .catch(function(result){
             //This is where you would put an error callback
