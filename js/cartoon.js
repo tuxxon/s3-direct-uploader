@@ -190,40 +190,55 @@ function postImagesForCartoon(filename) {
         }
     });
     
-    /**
-    console.log("...UUID>" + UUID.generate() );
-
-    var startUrl = SERVER_URL + UPLOAD_URI + "name="+UUID.generate()+".png";
-
-    console.log("...postURL>" + startUrl );
-
-    $.ajax({
-        type: "GET",
-        url: startUrl,
-        beforeSend: function (xhr) {
-            //xhr.setRequestHeader("Content-type","application/json");
-            console.log("...portNo>"+8080);
-            //xhr.setRequestHeader("Access-Control-Allow-Origin","http://127.0.0.1:8080");
-        },
-        success: function (res) {
-            console.log(res);
-        }
-    });
-    */
-
-    /**
-     *  No. 1 Logic.
-    $.post( postUrl, function( data ) {
-        console.log(".. result >"+ data)
-        //$( ".result" ).html( data );
-    });
-    */
-    //console.log("...cv images!!!...");
 }
 
-$(document).ready(function() 
-{
-    $('#upload-btn').on('click', function() {
-        $("#upload-form").submit();
-    });
-});
+window.jssor_1_slider_init = function() {
+
+    var jssor_1_options = {
+      $AutoPlay: 1,
+      $AutoPlaySteps: 5,
+      $SlideDuration: 160,
+      $SlideWidth: 200,
+      $SlideSpacing: 3,
+      $ArrowNavigatorOptions: {
+        $Class: $JssorArrowNavigator$,
+        $Steps: 5
+      },
+      $BulletNavigatorOptions: {
+        $Class: $JssorBulletNavigator$,
+        $SpacingX: 16,
+        $SpacingY: 16
+      }
+    };
+
+    var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
+
+    /*#region responsive code begin*/
+
+    var MAX_WIDTH = 980;
+
+    function ScaleSlider() {
+        var containerElement = jssor_1_slider.$Elmt.parentNode;
+        //var containerElement = document.getElementsByClassName('file-upload-content');
+        var containerWidth = containerElement.clientWidth;
+
+        if (containerWidth) {
+
+            var expectedWidth = Math.min(MAX_WIDTH || containerWidth, containerWidth);
+
+            jssor_1_slider.$ScaleWidth(expectedWidth);
+        }
+        else {
+            window.setTimeout(ScaleSlider, 30);
+        }
+    }
+
+    ScaleSlider();
+
+    $Jssor$.$AddEvent(window, "load", ScaleSlider);
+    $Jssor$.$AddEvent(window, "resize", ScaleSlider);
+    $Jssor$.$AddEvent(window, "orientationchange", ScaleSlider);
+    /*#endregion responsive code end*/
+};
+
+jssor_1_slider_init();

@@ -59,100 +59,6 @@
   </head>
 
   <body>
-
-    <script type="text/javascript">
-        window.jssor_1_slider_init = function() {
-
-            var jssor_1_options = {
-              $AutoPlay: 1,
-              $AutoPlaySteps: 5,
-              $SlideDuration: 160,
-              $SlideWidth: 200,
-              $SlideSpacing: 3,
-              $ArrowNavigatorOptions: {
-                $Class: $JssorArrowNavigator$,
-                $Steps: 5
-              },
-              $BulletNavigatorOptions: {
-                $Class: $JssorBulletNavigator$,
-                $SpacingX: 16,
-                $SpacingY: 16
-              }
-            };
-
-            var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
-
-            /*#region responsive code begin*/
-
-            var MAX_WIDTH = 980;
-
-            function ScaleSlider() {
-                var containerElement = jssor_1_slider.$Elmt.parentNode;
-                //var containerElement = document.getElementsByClassName('file-upload-content');
-                var containerWidth = containerElement.clientWidth;
-
-                if (containerWidth) {
-
-                    var expectedWidth = Math.min(MAX_WIDTH || containerWidth, containerWidth);
-
-                    jssor_1_slider.$ScaleWidth(expectedWidth);
-                }
-                else {
-                    window.setTimeout(ScaleSlider, 30);
-                }
-            }
-
-            ScaleSlider();
-
-            $Jssor$.$AddEvent(window, "load", ScaleSlider);
-            $Jssor$.$AddEvent(window, "resize", ScaleSlider);
-            $Jssor$.$AddEvent(window, "orientationchange", ScaleSlider);
-            /*#endregion responsive code end*/
-        };
-    </script>
-    <style>
-        /*jssor slider loading skin spin css*/
-        .jssorl-009-spin img {
-            animation-name: jssorl-009-spin;
-            animation-duration: 1.6s;
-            animation-iteration-count: infinite;
-            animation-timing-function: linear;
-        }
-
-        @keyframes jssorl-009-spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /*jssor slider bullet skin 057 css*/
-        .jssorb057 .i {position:absolute;cursor:pointer;}
-        .jssorb057 .i .b {fill:none;stroke:#fff;stroke-width:2000;stroke-miterlimit:10;stroke-opacity:0.4;}
-        .jssorb057 .i:hover .b {stroke-opacity:.7;}
-        .jssorb057 .iav .b {stroke-opacity: 1;}
-        .jssorb057 .i.idn {opacity:.3;}
-
-        /*jssor slider arrow skin 093 css*/
-        .jssora093 {display:block;position:absolute;cursor:pointer;}
-        .jssora093 .c {fill:none;stroke:#fff;stroke-width:400;stroke-miterlimit:10;}
-        .jssora093 .a {fill:none;stroke:#fff;stroke-width:400;stroke-miterlimit:10;}
-        .jssora093:hover {opacity:.8;}
-        .jssora093.jssora093dn {opacity:.6;}
-        .jssora093.jssora093ds {opacity:.3;pointer-events:none;}
-
-        .imageAndText {
-            position: relative;
-        } 
-        .imageAndText .caption {
-            color: #fff;  
-            text-shadow: 2px 2px #000;
-            position: absolute; 
-            width:100%; 
-            z-index: 1; 
-            top: 0;
-        }
-
-    </style>
-
     <div class="wrapper">
         <!-- Sidebar -->
         <nav id="sidebar">
@@ -291,57 +197,6 @@
 
                 <div class="file-upload-content">
                     <img class="file-upload-image" id="face-image" src="#" alt="your image"/>
-                    <!--div class="d-flex container my-3 justify-content-center">
-                        <div class="img-responsive mx-3">
-                            <a href="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg">
-                              <img id="grayImage" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" class="img-rounded" alt="Lights">
-                              <div class="caption">
-                                <p>Gray</p>
-                              </div>
-                            </a>
-                        </div>
-                        <div class="img-responsive mx-3">
-                            <a href="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg">
-                              <img id="edgePreservingImage" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" class="img-rounded" alt="Lights">
-                              <div class="caption">
-                                <p>Edge Preserving</p>
-                              </div>
-                            </a>
-                        </div>
-                        <div class="img-responsive mx-3">
-                            <a href="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg">
-                              <img id="detailEnhanceImage" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" class="img-rounded" alt="Lights">
-                              <div class="caption">
-                                <p>Detail Enhance</p>
-                              </div>
-                            </a>
-                        </div>
-                        <div class="img-responsive mx-3">
-                            <a href="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg">
-                              <img id="stylizationImage" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" class="img-rounded" alt="Lights">
-                              <div class="caption">
-                                <p>Stylization</p>
-                              </div>
-                            </a>
-                        </div>
-                        <div class="img-responsive mx-3">
-                            <a href="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg">
-                              <img id="pencilSketchGrayImage" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" class="img-rounded" alt="Lights">
-                              <div class="caption">
-                                <p>Pencil Sketch Gray</p>
-                              </div>
-                            </a>
-                        </div>
-
-                        <div class="img-responsive mx-3">
-                            <a href="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg">
-                              <img id="pencilSketchColorImage" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" class="img-rounded" alt="Lights">
-                              <div class="caption">
-                                <p>Pencil Sketch Color</p>
-                              </div>
-                            </a>
-                        </div>
-                    </div-->
 
                     <div id="jssor_1" class="my-5" style="position:relative;margin:0;top:0px;left:0px;width:980px;height:150px;overflow:hidden;visibility:hidden;">
 
@@ -506,10 +361,7 @@
                 $('a[aria-expanded=true]').attr('aria-expanded', 'false');
             });
         });
-    </script>
 
-    <script type="text/javascript">
-        jssor_1_slider_init();
     </script>
 
     <!-- for AWS API Gateway.. -->
