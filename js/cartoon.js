@@ -109,28 +109,27 @@ function showImagesToBeCartoonized(filename) {
             var images = result.data.body.images;
 
             $("#grayImage").attr("src",images['gray']);
-            $("#grayImage").parent('a').attr("href",images['gray']);
-
+            $("#grayHref").attr("href",images['gray']);
 
             $("#edgePreservingImage").attr("src",images['edgePreserving']);
-            $("#edgePreservingImage").parent('a').attr("href",images['edgePreserving']);
+            $("#edgePreservingHref").attr("href",images['edgePreserving']);
 
             $("#detailEnhanceImage").attr("src",images['detailEnhance']);
-            $("#detailEnhanceImage").parent('a').attr("href",images['detailEnhance']);
+            $("#detailEnhanceHref").attr("href",images['detailEnhance']);
 
             $("#stylizationImage").attr("src",images['stylization']);
-            $("#stylizationImage").parent('a').attr("href",images['stylization']);
+            $("#stylizationHref").attr("href",images['stylization']);
 
             $("#pencilSketchGrayImage").attr("src",images['pencilSketch_gray']);
-            $("#pencilSketchGrayImage").parent('a').attr("href",images['pencilSketch_gray']);
+            $("#pencilSketchGrayHref").attr("href",images['pencilSketch_gray']);
 
             $("#pencilSketchColorImage").attr("src",images['pencilSketch_color']);
-            $("#pencilSketchColorImage").parent('a').attr("href",images['pencilSketch_color']);
+            $("#pencilSketchColorHref").attr("href",images['pencilSketch_color']);
 
             //console.log("[DEBUG] images =%s",JSON.stringify(result.data.body.images));
         })
         .catch(function(result){
-            //This is where you would put an error callback
+            //This is where you would put   an error callback
             // catch errors...
         });
 
