@@ -106,25 +106,26 @@ function showImagesToBeCartoonized(filename) {
     apigClient.cartoonafGet(params, body, additionalParams)
         .then(function(result){
             //This is where you would put a success callback
-            var images = result.data.body.images;
+            const  FULLIMAGE_URL = "fullimage.html?id=";
+            let images = result.data.body.images;
 
             $("#grayImage").attr("src",images['gray']);
-            $("#grayHref").attr("href",images['gray']);
+            $("#grayHref").attr("href",FULLIMAGE_URL+images['gray']);
 
             $("#edgePreservingImage").attr("src",images['edgePreserving']);
-            $("#edgePreservingHref").attr("href",images['edgePreserving']);
+            $("#edgePreservingHref").attr("href",FULLIMAGE_URL+images['edgePreserving']);
 
             $("#detailEnhanceImage").attr("src",images['detailEnhance']);
-            $("#detailEnhanceHref").attr("href",images['detailEnhance']);
+            $("#detailEnhanceHref").attr("href",FULLIMAGE_URL+images['detailEnhance']);
 
             $("#stylizationImage").attr("src",images['stylization']);
-            $("#stylizationHref").attr("href",images['stylization']);
+            $("#stylizationHref").attr("href",FULLIMAGE_URL+images['stylization']);
 
             $("#pencilSketchGrayImage").attr("src",images['pencilSketch_gray']);
-            $("#pencilSketchGrayHref").attr("href",images['pencilSketch_gray']);
+            $("#pencilSketchGrayHref").attr("href",FULLIMAGE_URL+images['pencilSketch_gray']);
 
             $("#pencilSketchColorImage").attr("src",images['pencilSketch_color']);
-            $("#pencilSketchColorHref").attr("href",images['pencilSketch_color']);
+            $("#pencilSketchColorHref").attr("href",FULLIMAGE_URL+images['pencilSketch_color']);
 
             console.log("[DEBUG] hash of image =%s",JSON.stringify(result.data.body.hash));
         })
