@@ -126,7 +126,7 @@ function showImagesToBeCartoonized(filename) {
             $("#pencilSketchColorImage").attr("src",images['pencilSketch_color']);
             $("#pencilSketchColorHref").attr("href",images['pencilSketch_color']);
 
-            //console.log("[DEBUG] images =%s",JSON.stringify(result.data.body.images));
+            console.log("[DEBUG] hash of image =%s",JSON.stringify(result.data.body.hash));
         })
         .catch(function(result){
             //This is where you would put   an error callback
@@ -183,15 +183,43 @@ function postImagesForCartoon(filename) {
             $("#upload-form > input[name^='x-amz-date']").val(output.body.fields['x-amz-date']);
             $("#upload-form > input[name^='policy']").val(output.body.fields['policy']);
             $("#upload-form > input[name^='x-amz-signature']").val(output.body.fields['x-amz-signature']);
-            $("#upload-form > input[name^='submit']").click();
-            //result.innerHTML = output;
 
-            showImagesToBeCartoonized(paramFilename);
+            var uploadForm = $('#upload-form');
+            var formData = new FormData($('form')[0]);
+
+            /**
+             *  Upload an image through Ajax.. using event driven way.
+             */
+            uploadForm.submit(function (e) {
+        
+                e.preventDefault();
+
+                $.ajax({
+                    type: uploadForm.attr('method'),
+                    url: uploadForm.attr('action'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        /**
+                         *  Showing the images to be cartoonized.
+                         */
+                        showImagesToBeCartoonized(paramFilename);
+                    },
+                    error: function (data) {
+                        console.log('[debug] An error occurred.');
+                        console.log('[debug] = %s',JSON.stringify(data));
+                    },
+                });
+            });
+
+            $("#upload-form > input[name^='submit']").click();
         }
     });
     
 }
 
+/*--- Initialize a image slider from jssor --- */
 window.jssor_1_slider_init = function() {
 
     var jssor_1_options = {
@@ -242,3 +270,6 @@ window.jssor_1_slider_init = function() {
 };
 
 jssor_1_slider_init();
+
+
+/*----   ----*/
