@@ -137,6 +137,9 @@ function showImagesToBeCartoonized(filename) {
 
 }
 
+/**
+ * show data from localstorge when refresing or clicking back button.
+ */
 function showImagesOnRefreshing() {
 
     //var hashimage = localStorage.getItem("hashimage");
@@ -147,7 +150,9 @@ function showImagesOnRefreshing() {
     if (images == null || images.length === 0 )
         return;
 
-
+    /**
+     *  The image to be analyzed.
+     */
     $('.image-upload-wrap').hide();
     $('#loading').show();
     $('.file-upload-image').attr('src', images['source']);
@@ -155,10 +160,15 @@ function showImagesOnRefreshing() {
     $('.image-title').html("refresh");
     $('#loading').hide();
 
+    /**
+     *  Gender and result-message
+     */
     $('#gender').val(localStorage.getItem("imageSex"));
     $('.result-message')[0].innerHTML = localStorage.getItem("resultMessage");
 
-
+    /**
+     *  Converted images.
+     */
     $("#grayImage").attr("src",images['gray']);
     $("#grayHref").attr("href",FULLIMAGE_URL+images['gray']);
 
