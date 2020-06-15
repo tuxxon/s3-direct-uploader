@@ -5,6 +5,7 @@ section, section > p {
 }
 
 
+
 .section {
   margin-top: 50px !important;
   margin-bottom: 50px !important;    
@@ -398,6 +399,7 @@ input:checked + label > .knob > i:before {
   margin: 0 auto;
 }
 .result-message {
+  font-family: 'Do Hyeon', sans-serif;  
   font-size: 2rem;
 }
 
