@@ -362,6 +362,19 @@
             });
         });
 
+        $(window).on('beforeunload', function() {
+            var gender = $('#gender').val();
+            localStorage.setItem("imageSex",gender);
+
+            var resultMessage = $('.result-message')[0].innerHTML;
+            localStorage.setItem("resultMessage", resultMessage);
+        });
+
+        $(window).on('load', function() {
+            //localStorage.clear();
+            showImagesOnRefreshing();
+        });
+
     </script>
 
     <!-- for AWS API Gateway.. -->

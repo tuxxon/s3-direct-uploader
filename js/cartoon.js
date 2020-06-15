@@ -38,6 +38,7 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 const SERVER_URL = "https://fz53s03zpl.execute-api.ap-northeast-2.amazonaws.com/dev"
 const UPLOAD_URI = "/image?"
 const CONVERT_URI = "/cartoonaf?"
+const  FULLIMAGE_URL = "fullimage.html?id=";
 
 function getSignedURLforUploading() {
 
@@ -106,7 +107,6 @@ function showImagesToBeCartoonized(filename) {
     apigClient.cartoonafGet(params, body, additionalParams)
         .then(function(result){
             //This is where you would put a success callback
-            const  FULLIMAGE_URL = "fullimage.html?id=";
             let images = result.data.body.images;
 
             $("#grayImage").attr("src",images['gray']);
@@ -127,12 +127,55 @@ function showImagesToBeCartoonized(filename) {
             $("#pencilSketchColorImage").attr("src",images['pencilSketch_color']);
             $("#pencilSketchColorHref").attr("href",FULLIMAGE_URL+images['pencilSketch_color']);
 
-            console.log("[DEBUG] hash of image =%s",JSON.stringify(result.data.body.hash));
+            localStorage.setItem("hashimage", result.data.body.hash);
+            localStorage.setItem("images", JSON.stringify(result.data.body.images));            
         })
         .catch(function(result){
             //This is where you would put   an error callback
             // catch errors...
         });
+
+}
+
+function showImagesOnRefreshing() {
+
+    //var hashimage = localStorage.getItem("hashimage");
+    //if (hashimage == null || hashimage.length === 0 )
+    //    return;
+
+    var images = JSON.parse(localStorage.getItem("images"));
+    if (images == null || images.length === 0 )
+        return;
+
+
+    $('.image-upload-wrap').hide();
+    $('#loading').show();
+    $('.file-upload-image').attr('src', images['source']);
+    $('.file-upload-content').show();
+    $('.image-title').html("refresh");
+    $('#loading').hide();
+
+    $('#gender').val(localStorage.getItem("imageSex"));
+    $('.result-message')[0].innerHTML = localStorage.getItem("resultMessage");
+
+
+    $("#grayImage").attr("src",images['gray']);
+    $("#grayHref").attr("href",FULLIMAGE_URL+images['gray']);
+
+    $("#edgePreservingImage").attr("src",images['edgePreserving']);
+    $("#edgePreservingHref").attr("href",FULLIMAGE_URL+images['edgePreserving']);
+
+    $("#detailEnhanceImage").attr("src",images['detailEnhance']);
+    $("#detailEnhanceHref").attr("href",FULLIMAGE_URL+images['detailEnhance']);
+
+    $("#stylizationImage").attr("src",images['stylization']);
+    $("#stylizationHref").attr("href",FULLIMAGE_URL+images['stylization']);
+
+    $("#pencilSketchGrayImage").attr("src",images['pencilSketch_gray']);
+    $("#pencilSketchGrayHref").attr("href",FULLIMAGE_URL+images['pencilSketch_gray']);
+
+    $("#pencilSketchColorImage").attr("src",images['pencilSketch_color']);
+    $("#pencilSketchColorHref").attr("href",FULLIMAGE_URL+images['pencilSketch_color']);
 
 }
 
@@ -274,3 +317,4 @@ jssor_1_slider_init();
 
 
 /*----   ----*/
+
