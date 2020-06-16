@@ -15,8 +15,8 @@
         <!-- Sidebar 3rd CSS -->
         <link rel="stylesheet" href="css/sidebar3.css">
 
-        <!-- Sidebar 3rd CSS >
-        <link rel="stylesheet" href="css/style.css"-->
+        <!-- Sidebar 3rd CSS -->
+        <link rel="stylesheet" href="css/style.css">
 
         <!-- Scrollbar Custom CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
@@ -47,7 +47,7 @@
         <script src="js/jssor.slider-28.0.0.min.js" type="text/javascript"></script>
 
         <!-- addthis.com -->
-        <!--script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ecd15f9b94a6415"></script-->
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ecd15f9b94a6415"></script>
 
         <!-- Title, meta infos of browser tab-->
         <title>사진 카툰화 & 동물상 테스트</title>
@@ -148,8 +148,15 @@
                 </nav>
 
                 <section>
-                    <div>
-                        <img id="fullImage" class = "" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" />
+                    <div class="text-center">
+                        <h2 class="subtitle mb-3" id="filtertitle">Gray</h2>
+                        <img id="fullImage" class = ".file-upload-image" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" />
+                        <div id="addThis" class="addthis_inline_share_toolbox_6lz1"></div>
+
+                        <input id="first_number"  type="number" value="4.5" data-decimals="2" min="0" max="9" step="0.1" />
+                        <input id="second_number" type="number" value="4.5" data-decimals="2" min="0" max="9" step="0.1" />
+                        <input id="third_number"  type="number" value="4.5" data-decimals="2" min="0" max="9" step="0.1" />
+
                     </div>
                 </section>
 
@@ -186,6 +193,9 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
+        <!-- bootstrap number spinner -->
+        <script src="js/bootstrap-input-spinner.min.js" type="text/javascript"></script>
+
         <!-- jQuery Custom Scroller CDN -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
         <script type="text/javascript">
@@ -220,8 +230,54 @@
                 return parsedParameters;
             }
 
-            $("#fullImage").attr("src",parseQueryString()['id']);
-            //console.log("[DEBUG] query = %s",JSON.stringify(parseQueryString()));
+            var imageUrl = parseQueryString()['id'];
+            var filename = imageUrl.substr(imageUrl.lastIndexOf('/')+1);
+            var filenameSplit = filename.split('.');
+            var fileTitle = filenameSplit[0];
+            var imageTitle = "";
+
+            switch(fileTitle) {
+                case "gray": imageTitle = "Gray Image"; break;
+                case "ep": imageTitle = "Edge Preserving Filter"; break;
+                case "de": imageTitle = "Detail Enhance Filter"; break;
+                case "style": imageTitle = "Stylization Filter"; break;
+                case "ps-gray": imageTitle = "Pencil Sketch in Gray"; break;
+                case "ps-color": imageTitle = "Pencil Sketch in Color"; break;
+            }
+
+            $("#fullImage").attr("src",imageUrl);
+            $("#filtertitle").text(imageTitle);
+
+            var config = {
+                decrementButton: "<strong>-</strong>", // button text
+                incrementButton: "<strong>+</strong>", // ..
+                groupClass: "", // css class of the resulting input-group
+                buttonsClass: "btn-outline-secondary",
+                buttonsWidth: "2.5rem",
+                textAlign: "center",
+                autoDelay: 500, // ms holding before auto value change
+                autoInterval: 100, // speed of auto value change
+                boostThreshold: 10, // boost after these steps
+                boostMultiplier: "auto" // you can also set a constant number as multiplier
+            };
+
+            $("input[type='number']").inputSpinner(config);
+            
+            var $first_number = $("#first_number");
+            var $second_number = $("#second_number");
+            var $third_number = $("#third_number");
+
+            $first_number.on("change", function (event) {
+                $first_number.val($first_number.val());
+            });
+
+            $second_number.on("change", function (event) {
+                $second_number.val($second_number.val());
+            });
+
+            $third_number.on("change", function (event) {
+                $third_number.val($third_number.val());
+            });
         </script>
  
         <!-- for AWS API Gateway.. -->
