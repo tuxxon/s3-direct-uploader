@@ -156,27 +156,34 @@
                             <img id="fullImage" class = ".file-upload-image" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" />
                         </div>
                         <div class="row justify-content-md-center mt-3">
-                            <div id="paramTitle0" class="col col-lg-3 text-center">
+                            <div id="paramTitle0" class="col col-sm-3 text-center">
                                 <p>Flags</p>
                             </div>
-                            <div id="paramTitle1" class="col col-lg-3 text-center">
+                            <div id="paramTitle1" class="col col-sm-3 text-center">
                                 <p>Sigma_s</p>
                             </div>
-                            <div id="paramTitle2" class="col col-lg-3 text-center">
+                            <div id="paramTitle2" class="col col-sm-3 text-center">
                                 <p>Sigma_r</p>
                             </div>
                         </div>
                         <div class="row justify-content-md-center mb-3">
-                            <div id="paramNumber0" class="col col-lg-3">
-                                <input id="inputNumber0"   type="number" value="4.5" data-decimals="2" min="0" max="9" step="0.1" />
+                            <div id="paramNumber0" class="col col-sm-3">
+                                <input id="inputNumber0" type="number" value="4.5" data-decimals="2" min="0" max="9" step="0.1" />
                             </div>
-                            <div id="paramNumber1" class="col col-lg-3">
+                            <div id="paramNumber1" class="col col-sm-3">
                                 <input id="inputNumber1" type="number" value="4.5" data-decimals="2" min="0" max="9" step="0.1" />
                             </div>
-                            <div id="paramNumber2" class="col col-lg-3">
+                            <div id="paramNumber2" class="col col-sm-3">
                                 <input id="inputNumber2"  type="number" value="4.5" data-decimals="2" min="0" max="9" step="0.1" />
                             </div>
                         </div>
+
+                        <div class="row justify-content-md-center my-3">
+                            <div class="col col-sm-9">
+                                <button id="confirmBtn" type="button" class="btn btn-primary btn-lg btn-block">확인</button>
+                            </div>
+                        </div>
+
                         <div class="row justify-content-md-center">
                             <div id="addThis" class="addthis_inline_share_toolbox_6lz1"></div>
                         </div>
@@ -274,9 +281,9 @@
                 $("#paramNumber0").show();
                 $("#paramNumber1").show();
                 $("#paramNumber2").show();
-                $("#paramNumber0").html("<input id='inputNumber0' type='number' value='1' min='0' max='100' step='1'/>");
-                $("#paramNumber1").html("<input id='inputNumber1' type='number' value='60' min='0' max='100' step='1'/>");
-                $("#paramNumber2").html("<input id='inputNumber2' type='number' value='0.4' data-decimals='1' min='0' max='9' step='0.1' />");
+                $("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='1' min='0' max='100' step='1'/>");
+                $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
+                $("#paramNumber2").html("<input id='inputNumber2' class='form-control-lg input-group-lg' type='number' value='0.4' data-decimals='1' min='0' max='9' step='0.1' />");
 
                 $("#filtertitle").text(imageTitle);
             }
@@ -291,8 +298,8 @@
                 $("#paramNumber0").show();
                 $("#paramNumber1").show();
                 $("#paramNumber2").hide();
-                $("#paramNumber0").html("<input id='inputNumber0' type='number' value='10' min='0' max='100' step='1'/>");
-                $("#paramNumber1").html("<input id='inputNumber1' type='number' value='0.15' data-decimals='2' min='0' max='9' step='0.01' />");
+                $("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='10' min='0' max='100' step='1'/>");
+                $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='0.15' data-decimals='2' min='0' max='9' step='0.01' />");
 
                 $("#filtertitle").text(imageTitle);
             }
@@ -307,8 +314,8 @@
                 $("#paramNumber0").show();
                 $("#paramNumber1").show();
                 $("#paramNumber2").hide();
-                $("#paramNumber0").html("<input id='inputNumber0' type='number' value='60' min='0' max='100' step='1'/>");
-                $("#paramNumber1").html("<input id='inputNumber1' type='number' value='0.45' data-decimals='2' min='0' max='9' step='0.01' />");
+                $("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
+                $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='0.45' data-decimals='2' min='0' max='9' step='0.01' />");
 
                 $("#filtertitle").text(imageTitle);
             }
@@ -323,9 +330,9 @@
                 $("#paramNumber0").show();
                 $("#paramNumber1").show();
                 $("#paramNumber2").show();
-                $("#paramNumber0").html("<input id='inputNumber0' type='number' value='60' min='0' max='100' step='1'/>");
-                $("#paramNumber1").html("<input id='inputNumber1' type='number' value='0.07' data-decimals='2' min='0' max='9' step='0.01' />");
-                $("#paramNumber2").html("<input id='inputNumber2' type='number' value='0.05' data-decimals='2' min='0' max='9' step='0.01' />");
+                $("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
+                $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='0.07' data-decimals='2' min='0' max='9' step='0.01' />");
+                $("#paramNumber2").html("<input id='inputNumber2' class='form-control-lg input-group-lg' type='number' value='0.05' data-decimals='2' min='0' max='9' step='0.01' />");
 
                 $("#filtertitle").text(imageTitle);
             }
@@ -361,25 +368,16 @@
 
             $("input[type='number']").inputSpinner(config);
             
-            var $first_number = $("#first_number");
-            var $second_number = $("#second_number");
-            var $third_number = $("#third_number");
+            var $first_number = $("#inputNumber0");
+            var $second_number = $("#inputNumber1");
+            var $third_number = $("#inputNumber2");
+            var $confirmBtn = $("#confirmBtn");
 
-            $first_number.on("change", function (event) {
-                console.log("[DEBUG] ===> %s", $first_number.val() );
-                //$first_number.val($first_number.val());
-            });
-
-            $second_number.on("change", function (event) {
-                console.log("[DEBUG] ===> %s", $second_number.val() );
-                //$second_number.val($second_number.val());
-            });
-
-            $third_number.on("change", function (event) {
-                console.log("[DEBUG] ===> %s", $third_number.val() );
+            $confirmBtn.click( function (event) {
+                console.log("[DEBUG] ===> %s, %s, %s", $first_number.val(), $second_number.val(), $third_number.val() );
                 //$third_number.val($third_number.val());
             });
-            //$("#param0").hide();
+
         </script>
  
         <!-- for AWS API Gateway.. -->
