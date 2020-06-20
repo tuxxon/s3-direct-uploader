@@ -12,19 +12,7 @@
   * @param {*} image 
   */
 
-  /**
- function getRawFromImage() {
-    
-    function(buffer) {
-        var words = new Uint32Array(buffer),
-            hex = '';
-        for (var i = 0; i < words.length; i++) {
-          hex += words.get(i).toString(16);  // this will convert it to a 4byte hex string
-        }
-        console.log(hex);
-    
- } 
- */
+
 
 
 // Configure AWS SDK for JavaScript & set region and credentials
@@ -35,14 +23,14 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 });
 
 
-const SERVER_URL = "https://fz53s03zpl.execute-api.ap-northeast-2.amazonaws.com/dev"
-const UPLOAD_URI = "/image?"
-const CONVERT_URI = "/cartoonaf?"
 const  FULLIMAGE_URL = "fullimage.html?id=";
-
-function getSignedURLforUploading() {
-
-}
+const  kGRAY = "gray";
+const  kEP = "ep";
+const  kDE = "de";
+const  kSTYLE = "style";
+const  kPS_COLOR = "ps-color";
+const  kPS_GRAY = "ps-gray";
+const  kSOURCE = "source";
 
 function getImagesForCartoon_apigateway() {
 
@@ -80,9 +68,10 @@ function getImagesForCartoon_apigateway() {
 
 }
 
-function showImagesToBeCartoonized(filename) {
-    var apigClient = apigClientFactory.newClient();
 
+function showImagesToBeCartoonized(filename) {
+
+    var apigClient = apigClientFactory.newClient();
     var params = {
         //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
         name: filename
@@ -109,26 +98,26 @@ function showImagesToBeCartoonized(filename) {
             //This is where you would put a success callback
             let images = result.data.body.images;
 
-            $("#grayImage").attr("src",images['gray']);
-            $("#grayHref").attr("href",FULLIMAGE_URL+images['gray']);
-
-            $("#edgePreservingImage").attr("src",images['edgePreserving']);
-            $("#edgePreservingHref").attr("href",FULLIMAGE_URL+images['edgePreserving']);
-
-            $("#detailEnhanceImage").attr("src",images['detailEnhance']);
-            $("#detailEnhanceHref").attr("href",FULLIMAGE_URL+images['detailEnhance']);
-
-            $("#stylizationImage").attr("src",images['stylization']);
-            $("#stylizationHref").attr("href",FULLIMAGE_URL+images['stylization']);
-
-            $("#pencilSketchGrayImage").attr("src",images['pencilSketch_gray']);
-            $("#pencilSketchGrayHref").attr("href",FULLIMAGE_URL+images['pencilSketch_gray']);
-
-            $("#pencilSketchColorImage").attr("src",images['pencilSketch_color']);
-            $("#pencilSketchColorHref").attr("href",FULLIMAGE_URL+images['pencilSketch_color']);
-
+            $("#grayImage").attr("src",images[kGRAY]);
+            $("#grayHref").attr("href",FULLIMAGE_URL+images[kGRAY]);
+        
+            $("#edgePreservingImage").attr("src",images[kEP]);
+            $("#edgePreservingHref").attr("href",FULLIMAGE_URL+images[kEP]);
+        
+            $("#detailEnhanceImage").attr("src",images[kDE]);
+            $("#detailEnhanceHref").attr("href",FULLIMAGE_URL+images[kDE]);
+        
+            $("#stylizationImage").attr("src",images[kSTYLE]);
+            $("#stylizationHref").attr("href",FULLIMAGE_URL+images[kSTYLE]);
+        
+            $("#pencilSketchGrayImage").attr("src",images[kPS_GRAY]);
+            $("#pencilSketchGrayHref").attr("href",FULLIMAGE_URL+images[kPS_GRAY]);
+        
+            $("#pencilSketchColorImage").attr("src",images[kPS_COLOR]);
+            $("#pencilSketchColorHref").attr("href",FULLIMAGE_URL+images[kPS_COLOR]);
+        
             localStorage.setItem("hashimage", result.data.body.hash);
-            localStorage.setItem("images", JSON.stringify(result.data.body.images));            
+            localStorage.setItem("images", JSON.stringify(result.data.body.images));      
         })
         .catch(function(result){
             //This is where you would put   an error callback
@@ -169,23 +158,23 @@ function showImagesOnRefreshing() {
     /**
      *  Converted images.
      */
-    $("#grayImage").attr("src",images['gray']);
-    $("#grayHref").attr("href",FULLIMAGE_URL+images['gray']);
+    $("#grayImage").attr("src",images[kGRAY]);
+    $("#grayHref").attr("href",FULLIMAGE_URL+images[kGRAY]);
 
-    $("#edgePreservingImage").attr("src",images['edgePreserving']);
-    $("#edgePreservingHref").attr("href",FULLIMAGE_URL+images['edgePreserving']);
+    $("#edgePreservingImage").attr("src",images[kEP]);
+    $("#edgePreservingHref").attr("href",FULLIMAGE_URL+images[kEP]);
 
-    $("#detailEnhanceImage").attr("src",images['detailEnhance']);
-    $("#detailEnhanceHref").attr("href",FULLIMAGE_URL+images['detailEnhance']);
+    $("#detailEnhanceImage").attr("src",images[kDE]);
+    $("#detailEnhanceHref").attr("href",FULLIMAGE_URL+images[kDE]);
 
-    $("#stylizationImage").attr("src",images['stylization']);
-    $("#stylizationHref").attr("href",FULLIMAGE_URL+images['stylization']);
+    $("#stylizationImage").attr("src",images[kSTYLE]);
+    $("#stylizationHref").attr("href",FULLIMAGE_URL+images[kSTYLE]);
 
-    $("#pencilSketchGrayImage").attr("src",images['pencilSketch_gray']);
-    $("#pencilSketchGrayHref").attr("href",FULLIMAGE_URL+images['pencilSketch_gray']);
+    $("#pencilSketchGrayImage").attr("src",images[kPS_GRAY]);
+    $("#pencilSketchGrayHref").attr("href",FULLIMAGE_URL+images[kPS_GRAY]);
 
-    $("#pencilSketchColorImage").attr("src",images['pencilSketch_color']);
-    $("#pencilSketchColorHref").attr("href",FULLIMAGE_URL+images['pencilSketch_color']);
+    $("#pencilSketchColorImage").attr("src",images[kPS_COLOR]);
+    $("#pencilSketchColorHref").attr("href",FULLIMAGE_URL+images[kPS_COLOR]);
 
 }
 

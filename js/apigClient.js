@@ -86,13 +86,13 @@ apigClientFactory.newClient = function (config) {
     apigClient.cartoonafGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, ['name', 'body'], ['body']);
         
         var cartoonafGetRequest = {
             verb: 'get'.toUpperCase(),
             path: pathComponent + uritemplate('/cartoonaf').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['name', ]),
             body: body
         };
         
@@ -101,16 +101,34 @@ apigClientFactory.newClient = function (config) {
     };
     
     
+    apigClient.cartoonafPut = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['filter', 'name', 'body', 'flags', 'sigma_s', 'shade_factor', 'sigma_r'], ['body']);
+        
+        var cartoonafPutRequest = {
+            verb: 'put'.toUpperCase(),
+            path: pathComponent + uritemplate('/cartoonaf').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['filter', 'name', 'flags', 'sigma_s', 'shade_factor', 'sigma_r']),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(cartoonafPutRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
     apigClient.cartoonafPost = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, ['name', 'body'], ['body']);
         
         var cartoonafPostRequest = {
             verb: 'post'.toUpperCase(),
             path: pathComponent + uritemplate('/cartoonaf').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['name', ]),
             body: body
         };
         
@@ -134,6 +152,42 @@ apigClientFactory.newClient = function (config) {
         
         
         return apiGatewayClient.makeRequest(cartoonafOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.fullimageGet = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['filter', 'name', 'body', 'flags', 'sigma_s', 'shade_factor', 'sigma_r'], ['body']);
+        
+        var fullimageGetRequest = {
+            verb: 'get'.toUpperCase(),
+            path: pathComponent + uritemplate('/fullimage').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['filter', 'name', 'flags', 'sigma_s', 'shade_factor', 'sigma_r']),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(fullimageGetRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.fullimageOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var fullimageOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/fullimage').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(fullimageOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
     

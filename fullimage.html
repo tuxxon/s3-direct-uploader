@@ -268,6 +268,7 @@
                 $("#paramNumber1").hide();
                 $("#paramNumber2").hide();
                 $("#filtertitle").text(imageTitle);
+                $("#confirmBtn").hide();
             }
 
             function settingParamsforEdgePreservingFilter(imageTitle) {
@@ -286,6 +287,7 @@
                 $("#paramNumber2").html("<input id='inputNumber2' class='form-control-lg input-group-lg' type='number' value='0.4' data-decimals='1' min='0' max='9' step='0.1' />");
 
                 $("#filtertitle").text(imageTitle);
+                $("#confirmBtn").show();                
             }
 
             function settingParamsforDetailEnhanceFilter(imageTitle) {
@@ -302,6 +304,7 @@
                 $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='0.15' data-decimals='2' min='0' max='9' step='0.01' />");
 
                 $("#filtertitle").text(imageTitle);
+                $("#confirmBtn").show();                
             }
 
             function settingParamsforStylizationFilter(imageTitle) {
@@ -318,6 +321,7 @@
                 $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='0.45' data-decimals='2' min='0' max='9' step='0.01' />");
 
                 $("#filtertitle").text(imageTitle);
+                $("#confirmBtn").show();                
             }
             
             function settingParamsforPencilSketchFilter(imageTitle) {
@@ -335,6 +339,7 @@
                 $("#paramNumber2").html("<input id='inputNumber2' class='form-control-lg input-group-lg' type='number' value='0.05' data-decimals='2' min='0' max='9' step='0.01' />");
 
                 $("#filtertitle").text(imageTitle);
+                $("#confirmBtn").show();                
             }
 
             var imageUrl = parseQueryString()['id'];
@@ -366,16 +371,65 @@
                 boostMultiplier: "auto" // you can also set a constant number as multiplier
             };
 
+            var imagesParam = JSON.parse(localStorage.getItem("imagesParam"));
+            if (imagesParam == undefined || imagesParam == null) {
+                imagesParam = new Object();
+            }
+
             $("input[type='number']").inputSpinner(config);
-            
+
             var $first_number = $("#inputNumber0");
             var $second_number = $("#inputNumber1");
             var $third_number = $("#inputNumber2");
             var $confirmBtn = $("#confirmBtn");
 
             $confirmBtn.click( function (event) {
-                console.log("[DEBUG] ===> %s, %s, %s", $first_number.val(), $second_number.val(), $third_number.val() );
-                //$third_number.val($third_number.val());
+                var hashimage = localStorage.getItem("hashimage");
+                var images = JSON.parse(localStorage.getItem("images"));
+                var sourcename  = images.source.substr(images.source.lastIndexOf('/')+1);
+                var src_name = hashimage + "/"+ sourcename;
+                var dest_name = fileTitle;
+                let flags = 0, sigma_s = 0, sigma_r = 0.0, shade_factor = 0.0;
+
+                switch(fileTitle) {
+                    case "ep": 
+                        flags = $first_number.val();
+                        sigma_s = $second_number.val();
+                        sigma_r = $third_number.val();
+                        break;
+                    case "de": 
+                        sigma_s = $first_number.val();
+                        sigma_r = $second_number.val();
+                        break;
+                    case "style": 
+                        sigma_s = $first_number.val();
+                        sigma_r = $second_number.val();
+                        break;
+                    case "ps-gray":  
+                        sigma_s = $first_number.val();
+                        sigma_r = $second_number.val();
+                        shade_factor = $third_number.val();
+                        break;
+                    case "ps-color": 
+                        sigma_s = $first_number.val();
+                        sigma_r = $second_number.val();
+                        shade_factor = $third_number.val();
+                        break;
+                }
+
+                imagesParam[fileTitle] = {
+                    "flags" : flags,
+                    "sigma_s" : sigma_s,
+                    "sigma_r" : sigma_r,
+                    "shade_factor" : shade_factor
+                }
+
+                //console.log("[DEBUG] ===> %s", JSON.stringify(imagesParam));
+                //console.log("[DEBUG] src_name ===> %s", src_name);
+                //console.log("[DEBUG] dest_name ===> %s", dest_name);
+
+                localStorage.setItem("imagesParam",JSON.stringify(imagesParam));
+                convertImageByParams(src_name,dest_name, flags, sigma_s, sigma_r, shade_factor);
             });
 
         </script>
@@ -395,7 +449,9 @@
 
         <!-- aws sdk -->
         <script type="text/javascript" src="https://sdk.amazonaws.com/js/aws-sdk-2.686.0.min.js"></script>
-    
+
+        <!-- To cartoonize an image-->
+        <script src="js/fullimage.js"></script>
 
     </body>
 
