@@ -59,8 +59,7 @@ function convertImageByParams(src_name,dest_name, flags, sigma_s, sigma_r, shade
             images[dest_name] = filter_image['dest'];
             localStorage.setItem(kLS_IMAGES, JSON.stringify(images));
 
-            console.log("[debug] convertImageByParams(images) ===> %s", JSON.stringify(images));
-
+            //console.log("[debug] convertImageByParams(images) ===> %s", JSON.stringify(images));
         })
         .catch(function(result){
             //This is where you would put   an error callback
