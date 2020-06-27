@@ -300,6 +300,54 @@
                 return parsedParameters;
             }
 
+            function getJsonFromImageUrl(_imageUrl) {
+                let imageUri = _imageUrl.substr(0, _imageUrl.lastIndexOf('.')+1);
+                return imageUri + 'json';
+            }
+
+            function AjaxCall(jsonUrl) { 
+                $.ajax({ 
+                    type: "GET", 
+                    url : jsonUrl, 
+                    data: "", 
+                    dataType:"json", 
+                    success : function(data, status, xhr) { 
+                        let filename = jsonUrl.substr(jsonUrl.lastIndexOf('/')+1);
+                        let filenameSplit = filename.split('.');
+                        let fileTitle = filenameSplit[0];
+
+                        switch(fileTitle) {
+                            case "ep": 
+                                $("inputNumber0").val(data.flags);
+                                $("inputNumber1").val(data.sigma_s);
+                                $("inputNumber2").val(data.sigma_r);
+                                break;
+                            case "de":  
+                                $("inputNumber0").val(data.sigma_s);
+                                $("inputNumber1").val(data.sigma_r);
+                                break;
+                            case "style": 
+                                $("inputNumber0").val(data.sigma_s);
+                                $("inputNumber1").val(data.sigma_r);
+                                break;
+                            case "ps-gray": 
+                                $("inputNumber0").val(data.sigma_s);
+                                $("inputNumber1").val(data.sigma_r);
+                                $("inputNumber2").val(data.shade_factor);
+                                break;
+                            case "ps-color": 
+                                $("inputNumber0").val(data.sigma_s);
+                                $("inputNumber1").val(data.sigma_r);
+                                $("inputNumber2").val(data.shade_factor);
+                                break;
+                        }
+                    }, 
+                    error: function(jqXHR, textStatus, errorThrown) { 
+                        console.log(jqXHR.responseText); } 
+                }); 
+            }
+
+
             function settingParamsforGray(imageTitle) {
                 $("#paramTitle0").hide();
                 $("#paramTitle1").hide();
@@ -312,7 +360,7 @@
                 $("#initBtnArea").hide();
             }
 
-            function settingParamsforEdgePreservingFilter(imageTitle) {
+            function settingParamsforEdgePreservingFilter(imageTitle, paramImageUrl) {
                 $("#paramTitle0").show();
                 $("#paramTitle1").show();
                 $("#paramTitle2").show();
@@ -323,15 +371,19 @@
                 $("#paramNumber0").show();
                 $("#paramNumber1").show();
                 $("#paramNumber2").show();
-                $("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='1' min='0' max='100' step='1'/>");
-                $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
-                $("#paramNumber2").html("<input id='inputNumber2' class='form-control-lg input-group-lg' type='number' value='0.4' data-decimals='1' min='0' max='9' step='0.1' />");
+
+                //$("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='1' min='0' max='100' step='1'/>");
+                //$("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
+                //$("#paramNumber2").html("<input id='inputNumber2' class='form-control-lg input-group-lg' type='number' value='0.4' data-decimals='1' min='0' max='9' step='0.1' />");
 
                 $("#filtertitle").text(imageTitle);
-                $("#confirmBtn").show();                
+                $("#confirmBtn").show();
+                initParamsforEdgePreservingFilter();
+
+                AjaxCall(getJsonFromImageUrl(paramImageUrl));
             }
 
-            function settingParamsforDetailEnhanceFilter(imageTitle) {
+            function settingParamsforDetailEnhanceFilter(imageTitle,paramImageUrl) {
                 $("#paramTitle0").show();
                 $("#paramTitle1").show();
                 $("#paramTitle2").hide();
@@ -341,14 +393,17 @@
                 $("#paramNumber0").show();
                 $("#paramNumber1").show();
                 $("#paramNumber2").hide();
-                $("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='10' min='0' max='100' step='1'/>");
-                $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='0.15' data-decimals='2' min='0' max='9' step='0.01' />");
+                //$("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='10' min='0' max='100' step='1'/>");
+                //$("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='0.15' data-decimals='2' min='0' max='9' step='0.01' />");
 
                 $("#filtertitle").text(imageTitle);
                 $("#confirmBtn").show();                
+                initParamsforDetailEnhanceFilter();
+                AjaxCall(getJsonFromImageUrl(paramImageUrl));
+
             }
 
-            function settingParamsforStylizationFilter(imageTitle) {
+            function settingParamsforStylizationFilter(imageTitle,paramImageUrl) {
                 $("#paramTitle0").show();
                 $("#paramTitle1").show();
                 $("#paramTitle2").hide();
@@ -358,14 +413,18 @@
                 $("#paramNumber0").show();
                 $("#paramNumber1").show();
                 $("#paramNumber2").hide();
-                $("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
-                $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='0.45' data-decimals='2' min='0' max='9' step='0.01' />");
+                //$("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
+                //$("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='0.45' data-decimals='2' min='0' max='9' step='0.01' />");
 
                 $("#filtertitle").text(imageTitle);
-                $("#confirmBtn").show();                
+                $("#confirmBtn").show();    
+                
+                initParamsforStylizationFilter();
+                AjaxCall(getJsonFromImageUrl(paramImageUrl));
+
             }
             
-            function settingParamsforPencilSketchFilter(imageTitle) {
+            function settingParamsforPencilSketchFilter(imageTitle,paramImageUrl) {
                 $("#paramTitle0").show();
                 $("#paramTitle1").show();
                 $("#paramTitle2").show();
@@ -375,12 +434,38 @@
                 $("#paramNumber0").show();
                 $("#paramNumber1").show();
                 $("#paramNumber2").show();
+                //$("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
+                //$("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='0.07' data-decimals='2' min='0' max='9' step='0.01' />");
+                //$("#paramNumber2").html("<input id='inputNumber2' class='form-control-lg input-group-lg' type='number' value='0.05' data-decimals='2' min='0' max='9' step='0.01' />");
+
+                $("#filtertitle").text(imageTitle);
+                $("#confirmBtn").show();
+
+                initParamsforPencilSketchFilter();
+                AjaxCall(getJsonFromImageUrl(paramImageUrl));
+            }
+
+            function initParamsforEdgePreservingFilter() {
+                $("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='1' min='0' max='100' step='1'/>");
+                $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
+                $("#paramNumber2").html("<input id='inputNumber2' class='form-control-lg input-group-lg' type='number' value='0.4' data-decimals='1' min='0' max='9' step='0.1' />");
+            }
+
+            function initParamsforDetailEnhanceFilter() {
+                $("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='1' min='0' max='100' step='1'/>");
+                $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
+                $("#paramNumber2").html("<input id='inputNumber2' class='form-control-lg input-group-lg' type='number' value='0.4' data-decimals='1' min='0' max='9' step='0.1' />");
+            }
+
+            function initParamsforStylizationFilter() {
+                $("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
+                $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='0.45' data-decimals='2' min='0' max='9' step='0.01' />");
+            }
+
+            function initParamsforPencilSketchFilter() {
                 $("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
                 $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='0.07' data-decimals='2' min='0' max='9' step='0.01' />");
                 $("#paramNumber2").html("<input id='inputNumber2' class='form-control-lg input-group-lg' type='number' value='0.05' data-decimals='2' min='0' max='9' step='0.01' />");
-
-                $("#filtertitle").text(imageTitle);
-                $("#confirmBtn").show();                
             }
 
             var imageUrl = parseQueryString()['id'];
@@ -389,12 +474,12 @@
             var fileTitle = filenameSplit[0];
 
             switch(fileTitle) {
-                case "gray": settingParamsforGray("Gray Filter"); break;
-                case "ep": settingParamsforEdgePreservingFilter("Edge Preserving Filter"); break;
-                case "de": settingParamsforDetailEnhanceFilter("Detail Enhance Filter"); break;
-                case "style": settingParamsforStylizationFilter("Stylization Filter"); break;
-                case "ps-gray": settingParamsforPencilSketchFilter("Pencil Sketch in Gray");  break;
-                case "ps-color": settingParamsforPencilSketchFilter("Pencil Sketch in Color"); break;
+                case "gray": settingParamsforGray("Gray Filter", imageUrl); break;
+                case "ep": settingParamsforEdgePreservingFilter("Edge Preserving Filter", imageUrl); break;
+                case "de": settingParamsforDetailEnhanceFilter("Detail Enhance Filter", imageUrl); break;
+                case "style": settingParamsforStylizationFilter("Stylization Filter", imageUrl); break;
+                case "ps-gray": settingParamsforPencilSketchFilter("Pencil Sketch in Gray", imageUrl);  break;
+                case "ps-color": settingParamsforPencilSketchFilter("Pencil Sketch in Color", imageUrl); break;
             }
 
             $("#fullImage").attr("src", imageUrl);
@@ -424,6 +509,7 @@
             var $second_number = $("#inputNumber1");
             var $third_number = $("#inputNumber2");
             var $confirmBtn = $("#confirmBtn");
+            var $initBtn = $("#initBtn");
 
             $confirmBtn.click( function (event) {
                 var hashimage = localStorage.getItem("hashimage");
@@ -472,6 +558,17 @@
 
                 localStorage.setItem("imagesParam",JSON.stringify(imagesParam));
                 convertImageByParams(src_name,dest_name, flags, sigma_s, sigma_r, shade_factor);
+            });
+
+            $initBtn.click( function (event) {
+                switch(fileTitle) {
+                    case "ep": initParamsforEdgePreservingFilter(); break;
+                    case "de": initParamsforDetailEnhanceFilter(); break;
+                    case "style": initParamsforStylizationFilter(); break;
+                    case "ps-gray": initParamsforPencilSketchFilter();  break;
+                    case "ps-color": initParamsforPencilSketchFilter(); break;
+                }
+                $confirmBtn.trigger("click");
             });
 
         </script>
