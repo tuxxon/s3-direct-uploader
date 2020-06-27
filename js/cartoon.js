@@ -178,6 +178,16 @@ function showImagesOnRefreshing() {
 
 }
 
+function showLoadingForSlides() {
+    const LOADING_IMAGE = "img/redspinner.svg";
+
+    $("#grayImage").attr("src",LOADING_IMAGE);
+    $("#edgePreservingImage").attr("src",LOADING_IMAGE);
+    $("#detailEnhanceImage").attr("src",LOADING_IMAGE);
+    $("#stylizationImage").attr("src",LOADING_IMAGE);
+    $("#pencilSketchGrayImage").attr("src",LOADING_IMAGE);
+    $("#pencilSketchColorImage").attr("src",LOADING_IMAGE);
+}
 /**
  * Post an image to s3 with a signed url.
  * 
@@ -207,6 +217,8 @@ function postImagesForCartoon(filename) {
 		InvocationType : 'RequestResponse',
         Payload: JSON.stringify(input)
     };
+
+    showLoadingForSlides();
 
     lambda.invoke(params, function(err, data) {
         //var result = document.getElementById('result');
