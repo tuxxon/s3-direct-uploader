@@ -95,6 +95,10 @@ function AjaxSketchify(imgUrl) {
             // Do something now you know the image exists.
             $("#sketchifyImage").attr("src",imgUrl);
             $("#sketchifyHref").attr("href",imgUrl);
+
+            let images = JSON.parse( localStorage.getItem("images"));
+            images[kSKETCHIFY] = imgUrl;
+            localStorage.setItem("images", JSON.stringify(images));
         })
         .fail(function() { 
             // Image doesn't exist - do something else.
@@ -166,7 +170,7 @@ function showImagesToBeCartoonized(filename) {
             }
         
             localStorage.setItem("hashimage", result.data.body.hash);
-            localStorage.setItem("images", JSON.stringify(result.data.body.images));      
+            localStorage.setItem("images", JSON.stringify(result.data.body.images));
         })
         .catch(function(result){
             //This is where you would put   an error callback
