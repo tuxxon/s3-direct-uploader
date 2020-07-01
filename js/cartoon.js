@@ -98,8 +98,7 @@ function AjaxSketchify(imgUrl) {
         })
         .fail(function() { 
             // Image doesn't exist - do something else.
-
-            sleep(300).then(() => {
+            sleep(200).then(() => {
                 let aUrl = imgUrl.split('?');
                 AjaxSketchify(aUrl[0]+"?t="+ new Date().getTime());
             });
