@@ -28,6 +28,7 @@ const  kGRAY = "gray";
 const  kEP = "ep";
 const  kDE = "de";
 const  kSTYLE = "style";
+const  kSKETCHIFY = "sketchify";
 const  kPS_COLOR = "ps-color";
 const  kPS_GRAY = "ps-gray";
 const  kSOURCE = "source";
@@ -68,6 +69,43 @@ function getImagesForCartoon_apigateway() {
 
 }
 
+
+function extractExtFrom(srcpath) {
+    let re = /(?:\.([^.]+))?$/;
+    let ext = "." + re.exec(srcpath)[1];
+
+    return ext;
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+/*
+jQuery.fn.delay = function(time, func) {
+    this.each(function() {
+        setTimeout(func,time);
+    });
+    return this;
+}
+*/
+function AjaxSketchify(imgUrl) {
+
+    $.get(imgUrl)
+        .done(function() { 
+            // Do something now you know the image exists.
+            $("#sketchifyImage").attr("src",imgUrl);
+            $("#sketchifyHref").attr("href",imgUrl);
+        })
+        .fail(function() { 
+            // Image doesn't exist - do something else.
+
+            sleep(300).then(() => {
+                let aUrl = imgUrl.split('?');
+                AjaxSketchify(aUrl[0]+"?t="+ new Date().getTime());
+            });
+
+        });
+}
 
 function showImagesToBeCartoonized(filename) {
 
@@ -115,6 +153,18 @@ function showImagesToBeCartoonized(filename) {
         
             $("#pencilSketchColorImage").attr("src",images[kPS_COLOR]);
             $("#pencilSketchColorHref").attr("href",FULLIMAGE_URL+images[kPS_COLOR]);
+
+            if (images[kSKETCHIFY]) {
+                $("#sketchifyImage").attr("src",images[kSKETCHIFY]);
+                $("#sketchifyHref").attr("href",FULLIMAGE_URL+images[kSKETCHIFY]);
+            }
+            else {
+                let srcpath = images[kSOURCE];
+                let ext = extractExtFrom(srcpath);
+
+                let imgUrl = "https://cartoonaf.s3.ap-northeast-2.amazonaws.com/public/"+result.data.body.hash+"/sketchify"+ext;
+                AjaxSketchify(imgUrl);
+            }
         
             localStorage.setItem("hashimage", result.data.body.hash);
             localStorage.setItem("images", JSON.stringify(result.data.body.images));      
@@ -176,6 +226,9 @@ function showImagesOnRefreshing() {
     $("#pencilSketchColorImage").attr("src",images[kPS_COLOR]);
     $("#pencilSketchColorHref").attr("href",FULLIMAGE_URL+images[kPS_COLOR]);
 
+    $("#sketchifyImage").attr("src",images[kSKETCHIFY]);
+    $("#sketchifyHref").attr("href",FULLIMAGE_URL+images[kSKETCHIFY]);
+
 }
 
 function showLoadingForSlides() {
@@ -187,6 +240,7 @@ function showLoadingForSlides() {
     $("#stylizationImage").attr("src",LOADING_IMAGE);
     $("#pencilSketchGrayImage").attr("src",LOADING_IMAGE);
     $("#pencilSketchColorImage").attr("src",LOADING_IMAGE);
+    $("#sketchifyImage").attr("src",LOADING_IMAGE);
 }
 /**
  * Post an image to s3 with a signed url.
@@ -197,10 +251,8 @@ function showLoadingForSlides() {
 function postImagesForCartoon(filename) { 
 
 	/// Prepare to call Lambda function
-    var lambda = new AWS.Lambda();
-
-    var re = /(?:\.([^.]+))?$/;
-    var ext = "." + re.exec(filename)[1];
+    let lambda = new AWS.Lambda();
+    let ext = extractExtFrom(filename);
 
     var paramFilename = UUID.generate() + ext;
     var input = {
