@@ -529,6 +529,7 @@
             var $initBtn = $("#initBtn");
 
             $confirmBtn.click( function (event) {
+
                 var hashimage = localStorage.getItem("hashimage");
                 var images = JSON.parse(localStorage.getItem("images"));
                 var sourcename  = images.source.substr(images.source.lastIndexOf('/')+1);
@@ -538,35 +539,35 @@
                 let apiType = 0;  // 0 : convertImageByParams, 1: convertImageByUsingSketchify
                 switch(fileTitle) {
                     case "ep": 
-                        flags = $first_number.val();
-                        sigma_s = $second_number.val();
-                        sigma_r = $third_number.val();
+                        flags = $("#inputNumber0").val();
+                        sigma_s = $("#inputNumber1").val();
+                        sigma_r = $("#inputNumber2").val();
                         apiType = 0;
                         break;
                     case "de": 
-                        sigma_s = $first_number.val();
-                        sigma_r = $second_number.val();
+                        sigma_s = $("#inputNumber0").val();
+                        sigma_r = $("#inputNumber1").val();
                         apiType = 0;
                         break;
                     case "style": 
-                        sigma_s = $first_number.val();
-                        sigma_r = $second_number.val();
+                        sigma_s = $("#inputNumber0").val();
+                        sigma_r = $("#inputNumber1").val();
                         apiType = 0;
                         break;
                     case "ps-gray":  
-                        sigma_s = $first_number.val();
-                        sigma_r = $second_number.val();
-                        shade_factor = $third_number.val();
+                        sigma_s = $("#inputNumber0").val();
+                        sigma_r = $("#inputNumber1").val();
+                        shade_factor = $("#inputNumber2").val();
                         apiType = 0;
                         break;
                     case "ps-color": 
-                        sigma_s = $first_number.val();
-                        sigma_r = $second_number.val();
-                        shade_factor = $third_number.val();
+                        sigma_s = $("#inputNumber0").val();
+                        sigma_r = $("#inputNumber1").val();
+                        shade_factor = $("#inputNumber2").val();
                         apiType = 0;
                         break;
                     case "sketchify": 
-                        sigma_s = $first_number.val();
+                        sigma_s = $("#inputNumber0").val();
                         apiType = 1;
                         break;
                 }
@@ -585,7 +586,7 @@
                 localStorage.setItem("imagesParam",JSON.stringify(imagesParam));
 
                 if (apiType == 1) {
-                    convertImageByUsingSketchify(src_name, sigma_s)
+                    convertImageByUsingSketchify(src_name, sigma_s);
                 }
                 else { // apiType == 0
                     convertImageByParams(src_name,dest_name, flags, sigma_s, sigma_r, shade_factor);
@@ -601,6 +602,7 @@
                     case "ps-color": initParamsforPencilSketchFilter(); break;
                     case "sketchify": initParamsforSketchifyFilter(); break;                    
                 }
+                $("input[type='number']").inputSpinner(config);
                 $confirmBtn.trigger("click");
             });
 
