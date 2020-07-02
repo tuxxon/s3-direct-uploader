@@ -321,28 +321,32 @@
 
                         switch(fileTitle) {
                             case "ep": 
-                                $("inputNumber0").val(data.flags);
-                                $("inputNumber1").val(data.sigma_s);
-                                $("inputNumber2").val(data.sigma_r);
+                                $("#inputNumber0").val(data.flags);
+                                $("#inputNumber1").val(data.sigma_s);
+                                $("#inputNumber2").val(data.sigma_r);
                                 break;
                             case "de":  
-                                $("inputNumber0").val(data.sigma_s);
-                                $("inputNumber1").val(data.sigma_r);
+                                $("#inputNumber0").val(data.sigma_s);
+                                $("#inputNumber1").val(data.sigma_r);
                                 break;
                             case "style": 
-                                $("inputNumber0").val(data.sigma_s);
-                                $("inputNumber1").val(data.sigma_r);
+                                $("#inputNumber0").val(data.sigma_s);
+                                $("#inputNumber1").val(data.sigma_r);
                                 break;
                             case "ps-gray": 
-                                $("inputNumber0").val(data.sigma_s);
-                                $("inputNumber1").val(data.sigma_r);
-                                $("inputNumber2").val(data.shade_factor);
+                                $("#inputNumber0").val(data.sigma_s);
+                                $("#inputNumber1").val(data.sigma_r);
+                                $("#inputNumber2").val(data.shade_factor);
                                 break;
                             case "ps-color": 
-                                $("inputNumber0").val(data.sigma_s);
-                                $("inputNumber1").val(data.sigma_r);
-                                $("inputNumber2").val(data.shade_factor);
+                                $("#inputNumber0").val(data.sigma_s);
+                                $("#inputNumber1").val(data.sigma_r);
+                                $("#inputNumber2").val(data.shade_factor);
                                 break;
+                            case "sketchify": 
+                                $("#inputNumber0").val(data.sigma);
+                                break;
+
                         }
                     }, 
                     error: function(jqXHR, textStatus, errorThrown) { 
@@ -375,10 +379,6 @@
                 $("#paramNumber1").show();
                 $("#paramNumber2").show();
 
-                //$("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='1' min='0' max='100' step='1'/>");
-                //$("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
-                //$("#paramNumber2").html("<input id='inputNumber2' class='form-control-lg input-group-lg' type='number' value='0.4' data-decimals='1' min='0' max='9' step='0.1' />");
-
                 $("#filtertitle").text(imageTitle);
                 $("#confirmBtn").show();
                 initParamsforEdgePreservingFilter();
@@ -396,8 +396,6 @@
                 $("#paramNumber0").show();
                 $("#paramNumber1").show();
                 $("#paramNumber2").hide();
-                //$("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='10' min='0' max='100' step='1'/>");
-                //$("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='0.15' data-decimals='2' min='0' max='9' step='0.01' />");
 
                 $("#filtertitle").text(imageTitle);
                 $("#confirmBtn").show();                
@@ -416,8 +414,6 @@
                 $("#paramNumber0").show();
                 $("#paramNumber1").show();
                 $("#paramNumber2").hide();
-                //$("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
-                //$("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='0.45' data-decimals='2' min='0' max='9' step='0.01' />");
 
                 $("#filtertitle").text(imageTitle);
                 $("#confirmBtn").show();    
@@ -437,14 +433,27 @@
                 $("#paramNumber0").show();
                 $("#paramNumber1").show();
                 $("#paramNumber2").show();
-                //$("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
-                //$("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='0.07' data-decimals='2' min='0' max='9' step='0.01' />");
-                //$("#paramNumber2").html("<input id='inputNumber2' class='form-control-lg input-group-lg' type='number' value='0.05' data-decimals='2' min='0' max='9' step='0.01' />");
 
                 $("#filtertitle").text(imageTitle);
                 $("#confirmBtn").show();
 
                 initParamsforPencilSketchFilter();
+                AjaxCall(getJsonFromImageUrl(paramImageUrl));
+            }
+
+            function settingParamsforSketchifyFilter(imageTitle,paramImageUrl) {
+                $("#paramTitle0").show();
+                $("#paramTitle1").hide();
+                $("#paramTitle2").hide();
+                $("#paramTitle0").html("<p>Sigma</p>");
+                $("#paramNumber0").show();
+                $("#paramNumber1").hide();
+                $("#paramNumber2").hide();
+
+                $("#filtertitle").text(imageTitle);
+                $("#confirmBtn").show();
+
+                initParamsforSketchifyFilter();
                 AjaxCall(getJsonFromImageUrl(paramImageUrl));
             }
 
@@ -471,6 +480,10 @@
                 $("#paramNumber2").html("<input id='inputNumber2' class='form-control-lg input-group-lg' type='number' value='0.05' data-decimals='2' min='0' max='9' step='0.01' />");
             }
 
+            function initParamsforSketchifyFilter() {
+                $("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='10' min='0' max='100' step='1'/>");
+            }
+
             var imageUrl = parseQueryString()['id'];
             var filename = imageUrl.substr(imageUrl.lastIndexOf('/')+1);
             var filenameSplit = filename.split('.');
@@ -483,6 +496,7 @@
                 case "style": settingParamsforStylizationFilter("Stylization Filter", imageUrl); break;
                 case "ps-gray": settingParamsforPencilSketchFilter("Pencil Sketch in Gray", imageUrl);  break;
                 case "ps-color": settingParamsforPencilSketchFilter("Pencil Sketch in Color", imageUrl); break;
+                case "sketchify": settingParamsforSketchifyFilter("Pencil Sketch using sketchify", imageUrl); break;
             }
 
             $("#fullImage").attr("src", imageUrl);
@@ -521,30 +535,39 @@
                 var src_name = hashimage + "/"+ sourcename;
                 var dest_name = fileTitle;
                 let flags = 0, sigma_s = 0, sigma_r = 0.0, shade_factor = 0.0;
-
+                let apiType = 0;  // 0 : convertImageByParams, 1: convertImageByUsingSketchify
                 switch(fileTitle) {
                     case "ep": 
                         flags = $first_number.val();
                         sigma_s = $second_number.val();
                         sigma_r = $third_number.val();
+                        apiType = 0;
                         break;
                     case "de": 
                         sigma_s = $first_number.val();
                         sigma_r = $second_number.val();
+                        apiType = 0;
                         break;
                     case "style": 
                         sigma_s = $first_number.val();
                         sigma_r = $second_number.val();
+                        apiType = 0;
                         break;
                     case "ps-gray":  
                         sigma_s = $first_number.val();
                         sigma_r = $second_number.val();
                         shade_factor = $third_number.val();
+                        apiType = 0;
                         break;
                     case "ps-color": 
                         sigma_s = $first_number.val();
                         sigma_r = $second_number.val();
                         shade_factor = $third_number.val();
+                        apiType = 0;
+                        break;
+                    case "sketchify": 
+                        sigma_s = $first_number.val();
+                        apiType = 1;
                         break;
                 }
 
@@ -560,7 +583,13 @@
                 //console.log("[DEBUG] dest_name ===> %s", dest_name);
 
                 localStorage.setItem("imagesParam",JSON.stringify(imagesParam));
-                convertImageByParams(src_name,dest_name, flags, sigma_s, sigma_r, shade_factor);
+
+                if (apiType == 1) {
+                    convertImageByUsingSketchify(src_name, sigma_s)
+                }
+                else { // apiType == 0
+                    convertImageByParams(src_name,dest_name, flags, sigma_s, sigma_r, shade_factor);
+                }
             });
 
             $initBtn.click( function (event) {
@@ -570,6 +599,7 @@
                     case "style": initParamsforStylizationFilter(); break;
                     case "ps-gray": initParamsforPencilSketchFilter();  break;
                     case "ps-color": initParamsforPencilSketchFilter(); break;
+                    case "sketchify": initParamsforSketchifyFilter(); break;                    
                 }
                 $confirmBtn.trigger("click");
             });

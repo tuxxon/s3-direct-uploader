@@ -226,6 +226,42 @@ apigClientFactory.newClient = function (config) {
         return apiGatewayClient.makeRequest(imageOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
+    
+    apigClient.sketchifyFullimageGet = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['sigma', 'name', 'body'], ['body']);
+        
+        var sketchifyFullimageGetRequest = {
+            verb: 'get'.toUpperCase(),
+            path: pathComponent + uritemplate('/sketchify-fullimage').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['sigma', 'name', ]),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(sketchifyFullimageGetRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.sketchifyFullimageOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var sketchifyFullimageOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/sketchify-fullimage').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(sketchifyFullimageOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
 
     return apigClient;
 };
