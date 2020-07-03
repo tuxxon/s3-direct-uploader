@@ -347,6 +347,8 @@
                                 $("#inputNumber0").val(data.sigma);
                                 break;
                             case "normal-cartoon": 
+                            case "cartoon-basic":
+                            case "cartoon-lite":
                                 //$("#inputNumber0").val(data.sigma);
                                 break;
 
@@ -472,6 +474,31 @@
                 $("#initBtnArea").hide();
             }
 
+            function settingParamsforBasicCartoonFilter(imageTitle,paramImageUrl) {
+                $("#paramTitle0").hide();
+                $("#paramTitle1").hide();
+                $("#paramTitle2").hide();
+                $("#paramNumber0").hide();
+                $("#paramNumber1").hide();
+                $("#paramNumber2").hide();
+                $("#filtertitle").text(imageTitle);
+                $("#confirmBtnArea").hide();
+                $("#initBtnArea").hide();
+            }
+
+            function settingParamsforCartoonLiteFilter(imageTitle,paramImageUrl) {
+                $("#paramTitle0").hide();
+                $("#paramTitle1").hide();
+                $("#paramTitle2").hide();
+                $("#paramNumber0").hide();
+                $("#paramNumber1").hide();
+                $("#paramNumber2").hide();
+                $("#filtertitle").text(imageTitle);
+                $("#confirmBtnArea").hide();
+                $("#initBtnArea").hide();
+            }
+
+
             function initParamsforEdgePreservingFilter() {
                 $("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='1' min='0' max='100' step='1'/>");
                 $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='60' min='0' max='100' step='1'/>");
@@ -509,10 +536,12 @@
                 case "ep": settingParamsforEdgePreservingFilter("Edge Preserving Filter", imageUrl); break;
                 case "de": settingParamsforDetailEnhanceFilter("Detail Enhance Filter", imageUrl); break;
                 case "style": settingParamsforStylizationFilter("Stylization Filter", imageUrl); break;
-                case "normal-cartoon": settingParamsforNormalCartoonFilter("Normal Cartoon", imageUrl); break;                
                 case "ps-gray": settingParamsforPencilSketchFilter("Pencil Sketch in Gray", imageUrl);  break;
                 case "ps-color": settingParamsforPencilSketchFilter("Pencil Sketch in Color", imageUrl); break;
                 case "sketchify": settingParamsforSketchifyFilter("Pencil Sketch using sketchify", imageUrl); break;
+                case "normal-cartoon": settingParamsforNormalCartoonFilter("Normal Cartoon", imageUrl); break;
+                case "cartoon-basic": settingParamsforBasicCartoonFilter("Basic Cartoon", imageUrl); break;
+                case "cartoon-lite": settingParamsforCartoonLiteFilter("Cartoon Lite", imageUrl); break;
             }
 
             $("#fullImage").attr("src", imageUrl);

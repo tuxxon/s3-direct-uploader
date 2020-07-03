@@ -12,9 +12,6 @@
   * @param {*} image 
   */
 
-
-
-
 // Configure AWS SDK for JavaScript & set region and credentials
 // Initialize the Amazon Cognito credentials provider
 AWS.config.region = 'ap-northeast-2'; // Region
@@ -33,6 +30,9 @@ const  kPS_COLOR = "ps-color";
 const  kPS_GRAY = "ps-gray";
 const  kSOURCE = "source";
 const  kNORMALCARTOON = 'normal-cartoon';
+const  kCARTOONBASIC = 'cartoon-basic';
+const  kCARTOONLITE = 'cartoon-lite';
+
 
 function getImagesForCartoon_apigateway() {
 
@@ -126,6 +126,50 @@ function AjaxNormalCartoon(imgUrl) {
         });
 }
 
+function AjaxBasicCartoon(imgUrl) {
+
+    $.get(imgUrl)
+        .done(function() { 
+            // Do something now you know the image exists.
+            $("#cartoonBasicImage").attr("src",imgUrl);
+            $("#cartoonBasicHref").attr("href",FULLIMAGE_URL+imgUrl);
+
+            let images = JSON.parse( localStorage.getItem("images"));
+            images[kCARTOONBASIC] = imgUrl;
+            localStorage.setItem("images", JSON.stringify(images));
+        })
+        .fail(function() { 
+            // Image doesn't exist - do something else.
+            sleep(200).then(() => {
+                let aUrl = imgUrl.split('?');
+                AjaxBasicCartoon(aUrl[0]+"?t="+ new Date().getTime());
+            });
+
+        });
+}
+
+function AjaxCartoonLite(imgUrl) {
+
+    $.get(imgUrl)
+        .done(function() { 
+            // Do something now you know the image exists.
+            $("#cartoonLiteImage").attr("src",imgUrl);
+            $("#cartoonLiteHref").attr("href",FULLIMAGE_URL+imgUrl);
+
+            let images = JSON.parse( localStorage.getItem("images"));
+            images[kCARTOONLITE] = imgUrl;
+            localStorage.setItem("images", JSON.stringify(images));
+        })
+        .fail(function() { 
+            // Image doesn't exist - do something else.
+            sleep(200).then(() => {
+                let aUrl = imgUrl.split('?');
+                AjaxCartoonLite(aUrl[0]+"?t="+ new Date().getTime());
+            });
+
+        });
+}
+
 function showImagesToBeCartoonized(filename) {
 
     var apigClient = apigClientFactory.newClient();
@@ -196,6 +240,30 @@ function showImagesToBeCartoonized(filename) {
                 let imgUrl = "https://cartoonaf.s3.ap-northeast-2.amazonaws.com/public/"+result.data.body.hash+"/normal-cartoon"+ext;
                 AjaxNormalCartoon(imgUrl);
             }
+
+            if (images[kCARTOONBASIC]) {
+                $("#cartoonBasicImage").attr("src",images[kCARTOONBASIC]);
+                $("#cartoonBasicHref").attr("href",FULLIMAGE_URL+images[kCARTOONBASIC]);
+            }
+            else {
+                let srcpath = images[kSOURCE];
+                let ext = extractExtFrom(srcpath);
+
+                let imgUrl = "https://cartoonaf.s3.ap-northeast-2.amazonaws.com/public/"+result.data.body.hash+"/cartoon-basic"+ext;
+                AjaxBasicCartoon(imgUrl);
+            }
+
+            if (images[kCARTOONLITE]) {
+                $("#cartoonLiteImage").attr("src",images[kCARTOONLITE]);
+                $("#cartoonLiteHref").attr("href",FULLIMAGE_URL+images[kCARTOONLITE]);
+            }
+            else {
+                let srcpath = images[kSOURCE];
+                let ext = extractExtFrom(srcpath);
+
+                let imgUrl = "https://cartoonaf.s3.ap-northeast-2.amazonaws.com/public/"+result.data.body.hash+"/cartoon-lite"+ext;
+                AjaxCartoonLite(imgUrl);
+            }
             
             localStorage.setItem("hashimage", result.data.body.hash);
             localStorage.setItem("images", JSON.stringify(result.data.body.images));
@@ -263,6 +331,12 @@ function showImagesOnRefreshing() {
     $("#normalCartoonImage").attr("src",images[kNORMALCARTOON]);
     $("#normalCartoonHref").attr("href",FULLIMAGE_URL+images[kNORMALCARTOON]);
 
+    $("#cartoonBasicImage").attr("src",images[kCARTOONBASIC]);
+    $("#cartoonBasicHref").attr("href",FULLIMAGE_URL+images[kCARTOONBASIC]);
+
+    $("#cartoonLiteImage").attr("src",images[kCARTOONLITE]);
+    $("#cartoonLiteHref").attr("href",FULLIMAGE_URL+images[kCARTOONLITE]);
+
 }
 
 function showLoadingForSlides() {
@@ -276,6 +350,8 @@ function showLoadingForSlides() {
     $("#pencilSketchColorImage").attr("src",LOADING_IMAGE);
     $("#sketchifyImage").attr("src",LOADING_IMAGE);
     $("#normalCartoonImage").attr("src",LOADING_IMAGE);
+    $("#cartoonBasicImage").attr("src",LOADING_IMAGE);    
+    $("#cartoonLiteImage").attr("src",LOADING_IMAGE);    
 }
 /**
  * Post an image to s3 with a signed url.
