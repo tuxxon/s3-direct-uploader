@@ -10,11 +10,12 @@
 const  kGRAY = "gray";
 const  kEP = "ep";
 const  kDE = "de";
-const  kSTYLE = "style";
+const  kNORMALCARTOON = 'normal-cartoon';
 const  kPS_COLOR = "ps-color";
 const  kPS_GRAY = "ps-gray";
 const  kSKETCHIFY = "sketchify";
 const  kSOURCE = "source";
+const  kSTYLE = "style";
 const  kLS_IMAGES = "images";
 
 function convertImageByParams(src_name,dest_name, flags, sigma_s, sigma_r, shade_factor) {

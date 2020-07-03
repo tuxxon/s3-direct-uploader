@@ -32,6 +32,7 @@ const  kSKETCHIFY = "sketchify";
 const  kPS_COLOR = "ps-color";
 const  kPS_GRAY = "ps-gray";
 const  kSOURCE = "source";
+const  kNORMALCARTOON = 'normal-cartoon';
 
 function getImagesForCartoon_apigateway() {
 
@@ -80,21 +81,14 @@ function extractExtFrom(srcpath) {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-/*
-jQuery.fn.delay = function(time, func) {
-    this.each(function() {
-        setTimeout(func,time);
-    });
-    return this;
-}
-*/
+
 function AjaxSketchify(imgUrl) {
 
     $.get(imgUrl)
         .done(function() { 
             // Do something now you know the image exists.
             $("#sketchifyImage").attr("src",imgUrl);
-            $("#sketchifyHref").attr("href",imgUrl);
+            $("#sketchifyHref").attr("href",FULLIMAGE_URL+imgUrl);
 
             let images = JSON.parse( localStorage.getItem("images"));
             images[kSKETCHIFY] = imgUrl;
@@ -105,6 +99,28 @@ function AjaxSketchify(imgUrl) {
             sleep(200).then(() => {
                 let aUrl = imgUrl.split('?');
                 AjaxSketchify(aUrl[0]+"?t="+ new Date().getTime());
+            });
+
+        });
+}
+
+function AjaxNormalCartoon(imgUrl) {
+
+    $.get(imgUrl)
+        .done(function() { 
+            // Do something now you know the image exists.
+            $("#normalCartoonImage").attr("src",imgUrl);
+            $("#normalCartoonHref").attr("href",FULLIMAGE_URL+imgUrl);
+
+            let images = JSON.parse( localStorage.getItem("images"));
+            images[kNORMALCARTOON] = imgUrl;
+            localStorage.setItem("images", JSON.stringify(images));
+        })
+        .fail(function() { 
+            // Image doesn't exist - do something else.
+            sleep(200).then(() => {
+                let aUrl = imgUrl.split('?');
+                AjaxNormalCartoon(aUrl[0]+"?t="+ new Date().getTime());
             });
 
         });
@@ -168,7 +184,19 @@ function showImagesToBeCartoonized(filename) {
                 let imgUrl = "https://cartoonaf.s3.ap-northeast-2.amazonaws.com/public/"+result.data.body.hash+"/sketchify"+ext;
                 AjaxSketchify(imgUrl);
             }
-        
+
+            if (images[kNORMALCARTOON]) {
+                $("#normalCartoonImage").attr("src",images[kNORMALCARTOON]);
+                $("#normalCartoonHref").attr("href",FULLIMAGE_URL+images[kNORMALCARTOON]);
+            }
+            else {
+                let srcpath = images[kSOURCE];
+                let ext = extractExtFrom(srcpath);
+
+                let imgUrl = "https://cartoonaf.s3.ap-northeast-2.amazonaws.com/public/"+result.data.body.hash+"/normal-cartoon"+ext;
+                AjaxNormalCartoon(imgUrl);
+            }
+            
             localStorage.setItem("hashimage", result.data.body.hash);
             localStorage.setItem("images", JSON.stringify(result.data.body.images));
         })
@@ -232,6 +260,9 @@ function showImagesOnRefreshing() {
     $("#sketchifyImage").attr("src",images[kSKETCHIFY]);
     $("#sketchifyHref").attr("href",FULLIMAGE_URL+images[kSKETCHIFY]);
 
+    $("#normalCartoonImage").attr("src",images[kNORMALCARTOON]);
+    $("#normalCartoonHref").attr("href",FULLIMAGE_URL+images[kNORMALCARTOON]);
+
 }
 
 function showLoadingForSlides() {
@@ -244,6 +275,7 @@ function showLoadingForSlides() {
     $("#pencilSketchGrayImage").attr("src",LOADING_IMAGE);
     $("#pencilSketchColorImage").attr("src",LOADING_IMAGE);
     $("#sketchifyImage").attr("src",LOADING_IMAGE);
+    $("#normalCartoonImage").attr("src",LOADING_IMAGE);
 }
 /**
  * Post an image to s3 with a signed url.
@@ -393,4 +425,3 @@ jssor_1_slider_init();
 
 
 /*----   ----*/
-
