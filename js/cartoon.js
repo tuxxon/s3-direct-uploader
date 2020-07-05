@@ -439,7 +439,7 @@ function postImagesForCartoon(filename) {
                         console.log('[debug] = %s',JSON.stringify(data));
                         console.log('[debug] filename = %s',filename);
                         /**
-                         * When the S3 or lambda hash a long break time,
+                         * Whenever the S3 or lambda has a long break time,
                          * 'Net error' occurs..
                          */
                         sleep(300).then(() => {
