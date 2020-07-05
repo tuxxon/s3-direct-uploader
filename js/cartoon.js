@@ -403,7 +403,7 @@ function postImagesForCartoon(filename) {
                 $('#imageSizeAlert').modal('show');
                 return;
             }
-    
+
             var output = JSON.parse(data.Payload);
             $("#upload-form").attr('action', output.body.url);
             $("#upload-form > input[name^='key']").val(output.body.fields['key']);
@@ -437,6 +437,14 @@ function postImagesForCartoon(filename) {
                     error: function (data) {
                         console.log('[debug] An error occurred.');
                         console.log('[debug] = %s',JSON.stringify(data));
+                        console.log('[debug] filename = %s',filename);
+                        /**
+                         * When the S3 or lambda hash a long break time,
+                         * 'Net error' occurs..
+                         */
+                        sleep(300).then(() => {
+                            postImagesForCartoon(filename);
+                        });
                     },
                 });
             });
