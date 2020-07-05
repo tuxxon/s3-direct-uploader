@@ -119,3 +119,53 @@ function convertImageByUsingSketchify(src_name, sigma) {
         });
 
 }
+
+
+function convertImageByUsingNormalCartoon(src_name, min, max) {
+
+    var apigClient = apigClientFactory.newClient();
+    var params = {
+        //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+        name: "public/"+src_name,
+        min: min,
+        max: max
+    };
+
+    var body = {
+        //This is where you define the body of the request
+    };
+    var additionalParams = {
+        //If there are any unmodeled query parameters or headers that need to be sent with the request you can add them here
+        /*
+        headers: {
+            headers_param0: 'headers_param0',
+            headers_param1: 'headers_param1'
+        },
+        */
+        queryParams: {
+            name: "public/"+src_name,
+            min: min,
+            max: max
+        }
+    };
+
+    apigClient.normalCartoonFullimageGet(params, body, additionalParams)
+        .then(function(result){
+            //This is where you would put a success callback
+            //console.log("[debug] normalCartoonFullimageGet(result) ===> %s", JSON.stringify(result));
+
+            let filter_image = result.data.body.images;
+            let images = JSON.parse(localStorage.getItem(kLS_IMAGES));
+            $('#fullImage').attr('src', filter_image['dest']);
+            images[kNORMALCARTOON] = filter_image['dest'];
+            localStorage.setItem(kLS_IMAGES, JSON.stringify(images));
+
+            //console.log("[debug] normalCartoonFullimageGet(images) ===> %s", JSON.stringify(images));
+        })
+        .catch(function(result){
+            //This is where you would put   an error callback
+            // catch errors...
+            console.log("[debug] error: normalCartoonFullimageGet() ===> %s", JSON.stringify(result));
+        });
+
+}

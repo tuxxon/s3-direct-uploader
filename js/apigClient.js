@@ -83,6 +83,78 @@ apigClientFactory.newClient = function (config) {
     
     
     
+    apigClient.basicCartoonFullimageGet = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var basicCartoonFullimageGetRequest = {
+            verb: 'get'.toUpperCase(),
+            path: pathComponent + uritemplate('/basic-cartoon-fullimage').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(basicCartoonFullimageGetRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.basicCartoonFullimageOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var basicCartoonFullimageOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/basic-cartoon-fullimage').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(basicCartoonFullimageOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.cartoonLiteFullimageGet = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var cartoonLiteFullimageGetRequest = {
+            verb: 'get'.toUpperCase(),
+            path: pathComponent + uritemplate('/cartoon-lite-fullimage').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(cartoonLiteFullimageGetRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.cartoonLiteFullimageOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var cartoonLiteFullimageOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/cartoon-lite-fullimage').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(cartoonLiteFullimageOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
     apigClient.cartoonafGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
@@ -224,6 +296,42 @@ apigClientFactory.newClient = function (config) {
         
         
         return apiGatewayClient.makeRequest(imageOptionsRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.normalCartoonFullimageGet = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, ['min', 'name', 'max', 'body'], ['body']);
+        
+        var normalCartoonFullimageGetRequest = {
+            verb: 'get'.toUpperCase(),
+            path: pathComponent + uritemplate('/normal-cartoon-fullimage').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['min', 'name', 'max', ]),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(normalCartoonFullimageGetRequest, authType, additionalParams, config.apiKey);
+    };
+    
+    
+    apigClient.normalCartoonFullimageOptions = function (params, body, additionalParams) {
+        if(additionalParams === undefined) { additionalParams = {}; }
+        
+        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        
+        var normalCartoonFullimageOptionsRequest = {
+            verb: 'options'.toUpperCase(),
+            path: pathComponent + uritemplate('/normal-cartoon-fullimage').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
+            headers: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            body: body
+        };
+        
+        
+        return apiGatewayClient.makeRequest(normalCartoonFullimageOptionsRequest, authType, additionalParams, config.apiKey);
     };
     
     
