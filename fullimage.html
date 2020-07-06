@@ -630,6 +630,8 @@
                  *  0: convertImageByParams, 
                  *  1: convertImageByUsingSketchify
                  *  2: convertImageByUsingNormalCartoon
+                 *  3: convertImageByUsingBasicCartoon
+                 *  4: convertImageByUsingCartoonLite
                  */
 
                 let apiType = 0;
@@ -735,6 +737,7 @@
                 $confirmBtn.trigger("click");
             });
 
+            console.log("[DEBUG] browser = %s", $.browser);
         </script>
  
         <!-- for AWS API Gateway.. -->
