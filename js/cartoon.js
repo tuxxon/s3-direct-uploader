@@ -394,15 +394,18 @@ function postImagesForCartoon(filename) {
              * Initialize the inputs of form 
              * in order to post an image to s3 with a signed url.
              */
-            var img = $('.file-upload-image')[0];
-            if (img.naturalWidth > 2000 &&  img.naturalHeight > 1100) {
-                $('#imageSizeConfirm').click(function(e) {
-                    $('#imageSizeAlert').modal('hide');
+
+            /**  Commented out to resize the source image...
+                var img = $('.file-upload-image')[0];
+                if (img.naturalWidth > 2000 &&  img.naturalHeight > 1100) {
+                    $('#imageSizeConfirm').click(function(e) {
+                        $('#imageSizeAlert').modal('hide');
+                        return;
+                    });
+                    $('#imageSizeAlert').modal('show');
                     return;
-                });
-                $('#imageSizeAlert').modal('show');
-                return;
-            }
+                }
+            */
 
             var output = JSON.parse(data.Payload);
             $("#upload-form").attr('action', output.body.url);
