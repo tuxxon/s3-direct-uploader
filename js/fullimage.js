@@ -169,3 +169,102 @@ function convertImageByUsingNormalCartoon(src_name, min, max) {
         });
 
 }
+
+
+function convertImageByUsingBasicCartoon(src_name, blockSize, C) {
+
+    var apigClient = apigClientFactory.newClient();
+    var params = {
+        //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+        name: "public/"+src_name,
+        blocksize: blockSize,
+        paramC: C
+    };
+
+    var body = {
+        //This is where you define the body of the request
+    };
+    var additionalParams = {
+        //If there are any unmodeled query parameters or headers that need to be sent with the request you can add them here
+        /*
+        headers: {
+            headers_param0: 'headers_param0',
+            headers_param1: 'headers_param1'
+        },
+        */
+        queryParams: {
+            name: "public/"+src_name,
+            blocksize: blockSize,
+            paramC: C
+        }
+    };
+
+    apigClient.basicCartoonFullimageGet(params, body, additionalParams)
+        .then(function(result){
+            //This is where you would put a success callback
+            //console.log("[debug] basicCartoonFullimageGet(result) ===> %s", JSON.stringify(result));
+
+            let filter_image = result.data.body.images;
+            let images = JSON.parse(localStorage.getItem(kLS_IMAGES));
+            $('#fullImage').attr('src', filter_image['dest']);
+            images[kCARTOONBASIC] = filter_image['dest'];
+            localStorage.setItem(kLS_IMAGES, JSON.stringify(images));
+
+            //console.log("[debug] basicCartoonFullimageGet(images) ===> %s", JSON.stringify(images));
+        })
+        .catch(function(result){
+            //This is where you would put   an error callback
+            // catch errors...
+            console.log("[debug] error: basicCartoonFullimageGet() ===> %s", JSON.stringify(result));
+        });
+
+}
+
+function convertImageByUsingCartoonLite(src_name, blockSize, C) {
+
+    var apigClient = apigClientFactory.newClient();
+    var params = {
+        //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+        name: "public/"+src_name,
+        blocksize: blockSize,
+        paramC: C
+    };
+
+    var body = {
+        //This is where you define the body of the request
+    };
+    var additionalParams = {
+        //If there are any unmodeled query parameters or headers that need to be sent with the request you can add them here
+        /*
+        headers: {
+            headers_param0: 'headers_param0',
+            headers_param1: 'headers_param1'
+        },
+        */
+        queryParams: {
+            name: "public/"+src_name,
+            blocksize: blockSize,
+            paramC: C
+        }
+    };
+
+    apigClient.cartoonLiteFullimageGet(params, body, additionalParams)
+        .then(function(result){
+            //This is where you would put a success callback
+            //console.log("[debug] cartoonLiteFullimageGet(result) ===> %s", JSON.stringify(result));
+
+            let filter_image = result.data.body.images;
+            let images = JSON.parse(localStorage.getItem(kLS_IMAGES));
+            $('#fullImage').attr('src', filter_image['dest']);
+            images[kCARTOONLITE] = filter_image['dest'];
+            localStorage.setItem(kLS_IMAGES, JSON.stringify(images));
+
+            //console.log("[debug] cartoonLiteFullimageGet(images) ===> %s", JSON.stringify(images));
+        })
+        .catch(function(result){
+            //This is where you would put   an error callback
+            // catch errors...
+            console.log("[debug] error: cartoonLiteFullimageGet() ===> %s", JSON.stringify(result));
+        });
+
+}

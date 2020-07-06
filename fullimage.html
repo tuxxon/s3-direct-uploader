@@ -351,9 +351,12 @@
                                 $("#inputNumber1").val(data.max);
                                 break;
                             case "cartoon-basic":
+                                $("#inputNumber0").val(data.blockSize);
+                                $("#inputNumber1").val(data.C);
                                 break;
                             case "cartoon-lite":
-                                //$("#inputNumber0").val(data.sigma);
+                                $("#inputNumber0").val(data.blockSize);
+                                $("#inputNumber1").val(data.C);
                                 break;
 
                         }
@@ -492,27 +495,37 @@
             }
 
             function settingParamsforBasicCartoonFilter(imageTitle,paramImageUrl) {
-                $("#paramTitle0").hide();
-                $("#paramTitle1").hide();
+                $("#paramTitle0").show();
+                $("#paramTitle0").html("<p>Block Size</p>");
+                $("#paramTitle1").show();
+                $("#paramTitle1").html("<p>--Mean</p>");
                 $("#paramTitle2").hide();
-                $("#paramNumber0").hide();
-                $("#paramNumber1").hide();
+                $("#paramNumber0").show();
+                $("#paramNumber1").show();
                 $("#paramNumber2").hide();
                 $("#filtertitle").text(imageTitle);
-                $("#confirmBtnArea").hide();
-                $("#initBtnArea").hide();
+                $("#confirmBtnArea").show();
+                $("#initBtnArea").show();
+
+                initParamsforBasicCartoonFilter();
+                AjaxCall(getJsonFromImageUrl(paramImageUrl));
             }
 
             function settingParamsforCartoonLiteFilter(imageTitle,paramImageUrl) {
-                $("#paramTitle0").hide();
-                $("#paramTitle1").hide();
+                $("#paramTitle0").show();
+                $("#paramTitle0").html("<p>Block Size</p>");
+                $("#paramTitle1").show();
+                $("#paramTitle1").html("<p>--Mean</p>");
                 $("#paramTitle2").hide();
-                $("#paramNumber0").hide();
-                $("#paramNumber1").hide();
+                $("#paramNumber0").show();
+                $("#paramNumber1").show();
                 $("#paramNumber2").hide();
                 $("#filtertitle").text(imageTitle);
-                $("#confirmBtnArea").hide();
-                $("#initBtnArea").hide();
+                $("#confirmBtnArea").show();
+                $("#initBtnArea").show();
+
+                initParamsforCartoonLiteFilter();
+                AjaxCall(getJsonFromImageUrl(paramImageUrl));
             }
 
 
@@ -548,6 +561,16 @@
                 $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='200' min='50' max='500' step='1' />");
             }
 
+            function initParamsforBasicCartoonFilter() {
+                $("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='9' min='1' max='19' step='2'/>");
+                $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='7' min='1' max='20' step='1' />");
+            }
+
+            function initParamsforCartoonLiteFilter() {
+                $("#paramNumber0").html("<input id='inputNumber0' class='form-control-lg input-group-lg' type='number' value='3' min='1' max='19' step='2'/>");
+                $("#paramNumber1").html("<input id='inputNumber1' class='form-control-lg input-group-lg' type='number' value='2' min='1' max='20' step='1' />");
+            }
+
             var imageUrl = parseQueryString()['id'];
             var filename = imageUrl.substr(imageUrl.lastIndexOf('/')+1);
             var filenameSplit = filename.split('.');
@@ -562,8 +585,8 @@
                 case "ps-color": settingParamsforPencilSketchFilter("Pencil Sketch in Color", imageUrl); break;
                 case "sketchify": settingParamsforSketchifyFilter("Pencil Sketch using sketchify", imageUrl); break;
                 case "normal-cartoon": settingParamsforNormalCartoonFilter("Normal Cartoon using Canny", imageUrl); break;
-                case "cartoon-basic": settingParamsforBasicCartoonFilter("Basic Cartoon", imageUrl); break;
-                case "cartoon-lite": settingParamsforCartoonLiteFilter("Cartoon Lite", imageUrl); break;
+                case "cartoon-basic": settingParamsforBasicCartoonFilter("Basic Cartoon using adaptiveThreshold", imageUrl); break;
+                case "cartoon-lite": settingParamsforCartoonLiteFilter("Cartoon Lite using adaptiveThreshold", imageUrl); break;
             }
 
             $("#fullImage").attr("src", imageUrl);
@@ -601,6 +624,7 @@
                 var dest_name = fileTitle;
                 let flags = 0, sigma_s = 0, sigma_r = 0.0, shade_factor = 0.0;
                 let min = 0, max = 0;
+                let blockSize = 0, C = 0;
 
                 /**
                  *  0: convertImageByParams, 
@@ -642,10 +666,20 @@
                         sigma_s = $("#inputNumber0").val();
                         apiType = 1;
                         break;
-                    case "normal-cartoon": 
+                    case "normal-cartoon":
                         min = $("#inputNumber0").val();
                         max = $("#inputNumber1").val();                        
                         apiType = 2;
+                        break;
+                    case "cartoon-basic":
+                        blockSize = $("#inputNumber0").val();
+                        C = $("#inputNumber1").val();                        
+                        apiType = 3;
+                        break;
+                    case "cartoon-lite":
+                        blockSize = $("#inputNumber0").val();
+                        C = $("#inputNumber1").val();                        
+                        apiType = 4;
                         break;
 
                 }
@@ -656,7 +690,9 @@
                     "sigma_r" : sigma_r,
                     "shade_factor" : shade_factor,
                     "min" : min,
-                    "max" : max
+                    "max" : max,
+                    "blockSize" : blockSize,
+                    "C" : C
                 }
 
                 //console.log("[DEBUG] ===> %s", JSON.stringify(imagesParam));
@@ -668,6 +704,8 @@
                 switch(apiType) {
                     case 1: convertImageByUsingSketchify(src_name, sigma_s); break;
                     case 2: convertImageByUsingNormalCartoon(src_name, min, max); break;
+                    case 3: convertImageByUsingBasicCartoon(src_name, blockSize, C); break;
+                    case 4: convertImageByUsingCartoonLite(src_name, blockSize, C); break;
                     default: convertImageByParams(src_name,dest_name, flags, sigma_s, sigma_r, shade_factor);
                 }
                 /*
@@ -689,7 +727,9 @@
                     case "ps-gray": initParamsforPencilSketchFilter();  break;
                     case "ps-color": initParamsforPencilSketchFilter(); break;
                     case "sketchify": initParamsforSketchifyFilter(); break;
-                    case "normal-cartoon": initParamsforNormalCartoonFilter(); break;                    
+                    case "normal-cartoon": initParamsforNormalCartoonFilter(); break;
+                    case "cartoon-basic": initParamsforBasicCartoonFilter(); break;
+                    case "cartoon-lite": initParamsforCartoonLiteFilter(); break;                                        
                 }
                 $("input[type='number']").inputSpinner(config);
                 $confirmBtn.trigger("click");

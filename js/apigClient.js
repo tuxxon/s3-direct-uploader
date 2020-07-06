@@ -86,13 +86,13 @@ apigClientFactory.newClient = function (config) {
     apigClient.basicCartoonFullimageGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, ['paramC', 'blocksize', 'name', 'body'], ['body']);
         
         var basicCartoonFullimageGetRequest = {
             verb: 'get'.toUpperCase(),
             path: pathComponent + uritemplate('/basic-cartoon-fullimage').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['paramC', 'blocksize', 'name', ]),
             body: body
         };
         
@@ -122,13 +122,13 @@ apigClientFactory.newClient = function (config) {
     apigClient.cartoonLiteFullimageGet = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, ['paramC', 'blocksize', 'name', 'body'], ['body']);
         
         var cartoonLiteFullimageGetRequest = {
             verb: 'get'.toUpperCase(),
             path: pathComponent + uritemplate('/cartoon-lite-fullimage').expand(apiGateway.core.utils.parseParametersToObject(params, [])),
             headers: apiGateway.core.utils.parseParametersToObject(params, []),
-            queryParams: apiGateway.core.utils.parseParametersToObject(params, []),
+            queryParams: apiGateway.core.utils.parseParametersToObject(params, ['paramC', 'blocksize', 'name', ]),
             body: body
         };
         
